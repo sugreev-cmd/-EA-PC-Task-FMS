@@ -7,30 +7,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /*
-  ╔══════════════════════════════════════════╗
-  ║  Supabase Table Setup (run once):        ║
-  ║                                          ║
-  ║  create table ea_pc_tasks (              ║
-  ║    id text primary key,                  ║
-  ║    section text not null,                ║
-  ║    name text not null,                   ║
-  ║    due_date date,                        ║
-  ║    actual_date date,                     ║
-  ║    status text default 'Pending',        ║
-  ║    assigned_to text default '',          ║
-  ║    notes text default '',                ║
-  ║    proof_link text default '',           ║
-  ║    month_key text default '',            ║
-  ║    priority text default 'Normal',       ║
-  ║    created_at timestamptz default now(), ║
-  ║    updated_at timestamptz default now()  ║
-  ║  );                                      ║
-  ║  alter table ea_pc_tasks enable row      ║
-  ║    level security;                       ║
-  ║  create policy "anon_all" on ea_pc_tasks ║
-  ║    for all using (true)                  ║
-  ║    with check (true);                    ║
-  ╚══════════════════════════════════════════╝
+  ╔══════════════════════════════════════════════════╗
+  ║  Supabase Setup (run these once in SQL Editor):  ║
+  ║                                                  ║
+  ║  -- 1. Create Tasks Table                        ║
+  ║  create table ea_pc_tasks (                      ║
+  ║    id text primary key,                          ║
+  ║    section text not null,                        ║
+  ║    name text not null,                           ║
+  ║    due_date date,                                ║
+  ║    actual_date date,                             ║
+  ║    status text default 'Pending',                ║
+  ║    assigned_to text default '',                  ║
+  ║    notes text default '',                        ║
+  ║    proof_link text default '',                   ║
+  ║    month_key text default '',                    ║
+  ║    priority text default 'Normal',               ║
+  ║    created_at timestamptz default now(),         ║
+  ║    updated_at timestamptz default now()          ║
+  ║  );                                              ║
+  ║  alter table ea_pc_tasks                         ║
+  ║    enable row level security;                    ║
+  ║  create policy "anon_all" on ea_pc_tasks         ║
+  ║    for all using (true) with check (true);       ║
+  ║                                                  ║
+  ║  -- 2. Create Storage Bucket for Proof Files     ║
+  ║  insert into storage.buckets                     ║
+  ║    (id, name, public)                            ║
+  ║    values ('task-proofs','task-proofs',true);    ║
+  ║                                                  ║
+  ║  create policy "Public Upload" on storage.objects║
+  ║    for insert with check                         ║
+  ║    (bucket_id = 'task-proofs');                  ║
+  ║                                                  ║
+  ║  create policy "Public Read" on storage.objects  ║
+  ║    for select using                              ║
+  ║    (bucket_id = 'task-proofs');                  ║
+  ╚══════════════════════════════════════════════════╝
 */
 
 [data-theme="dark"]{
@@ -261,10 +274,21 @@ textarea.fi{resize:vertical;min-height:60px}
 .bd2b{padding:9px 14px;border:1.5px solid rgba(255,68,68,.3);background:var(--red2);border-radius:8px;color:var(--red);font-size:12px;cursor:pointer;}
 /* Proof link view in modal */
 .proof-view-box{background:var(--s3);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:12px}
-.proof-view-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.proof-link-input-wrap{position:relative}
-.proof-view-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;background:linear-gradient(135deg,rgba(68,136,255,.15),rgba(68,136,255,.07));border:1px solid rgba(68,136,255,.4);color:var(--blue);font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s;margin-top:8px;}
+.proof-view-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.proof-upload-area{border:2px dashed var(--bd);border-radius:10px;padding:18px;text-align:center;cursor:pointer;transition:all .2s;background:var(--s4);}
+.proof-upload-area:hover{border-color:var(--blue);background:var(--blue2)}
+.proof-upload-area.dragover{border-color:var(--cyan);background:var(--cyan2)}
+.proof-upload-icon{font-size:28px;margin-bottom:8px}
+.proof-upload-txt{font-size:12px;font-weight:600;color:var(--sub);margin-bottom:3px}
+.proof-upload-sub{font-size:10px;color:var(--dim)}
+.proof-progress{background:var(--s4);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-top:10px;display:none}
+.proof-progress-bar{height:6px;background:var(--bd);border-radius:3px;overflow:hidden;margin-top:8px}
+.proof-progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue));border-radius:3px;transition:width .3s;width:0%}
+.proof-current{background:var(--s4);border:1px solid rgba(68,136,255,.3);border-radius:8px;padding:12px;margin-top:10px;display:none}
+.proof-view-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:8px;background:linear-gradient(135deg,rgba(68,136,255,.15),rgba(68,136,255,.07));border:1px solid rgba(68,136,255,.4);color:var(--blue);font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s;}
 .proof-view-btn:hover{background:linear-gradient(135deg,rgba(68,136,255,.25),rgba(68,136,255,.12));box-shadow:0 4px 16px rgba(68,136,255,.25);}
+.proof-remove-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:7px;background:var(--red2);border:1px solid rgba(255,68,68,.3);color:var(--red);font-size:11px;font-weight:600;cursor:pointer;margin-left:8px;transition:all .2s;}
+.proof-remove-btn:hover{background:rgba(255,68,68,.2)}
 /* Detail grid */
 .task-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .tdg-item{background:var(--s3);border:1px solid var(--bd);border-radius:8px;padding:10px 12px}
@@ -522,14 +546,33 @@ textarea.fi{resize:vertical;min-height:60px}
     <div class="mb">
       <div class="task-detail-grid" id="taskDetailGrid"></div>
 
-      <!-- Proof Link Section -->
+      <!-- Proof Upload Section -->
       <div class="proof-view-box">
-        <div class="proof-view-lbl">📎 Proof / Evidence — Google Drive Link</div>
-        <div class="proof-link-input-wrap">
-          <input class="fi" id="taskProofLink" placeholder="Paste Google Drive link here... https://drive.google.com/...">
-          <div style="font-size:10px;color:var(--dim);margin-top:4px">💡 Google Drive → Right click on file → Share → Copy link</div>
+        <div class="proof-view-lbl">📎 Proof / Evidence — Upload File</div>
+
+        <!-- Upload area -->
+        <div class="proof-upload-area" id="proofDropZone" onclick="document.getElementById('proofFileInput').click()">
+          <div class="proof-upload-icon">📤</div>
+          <div class="proof-upload-txt">Click to upload proof file</div>
+          <div class="proof-upload-sub">PDF, Image, Word, Excel — any file accepted</div>
+          <input type="file" id="proofFileInput" style="display:none" accept="*/*">
         </div>
-        <div id="proofViewBtnWrap" style="margin-top:8px"></div>
+
+        <!-- Upload progress -->
+        <div class="proof-progress" id="proofProgress">
+          <div style="font-size:11px;color:var(--cyan);font-weight:600" id="proofProgressTxt">Uploading...</div>
+          <div class="proof-progress-bar"><div class="proof-progress-fill" id="proofProgressFill"></div></div>
+        </div>
+
+        <!-- Current proof (shown when file exists) -->
+        <div class="proof-current" id="proofCurrentBox">
+          <div style="font-size:10px;color:var(--dim);margin-bottom:8px;font-family:'JetBrains Mono',monospace;letter-spacing:.5px">UPLOADED FILE</div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div style="font-size:12px;font-weight:600;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="proofFileName">—</div>
+            <a class="proof-view-btn" id="proofViewAnchor" href="#" target="_blank" rel="noopener">📎 View File</a>
+            <button class="proof-remove-btn" onclick="removeProof()">✕ Remove</button>
+          </div>
+        </div>
       </div>
 
       <div class="fg"><label class="fl">Notes / Remarks</label><textarea class="fi" id="taskNotes" placeholder="Add notes here..."></textarea></div>
@@ -985,6 +1028,93 @@ function buildMIS(ym){
 }
 
 // ═══════════════════════════════════════════════
+// PROOF FILE UPLOAD (Supabase Storage)
+// ═══════════════════════════════════════════════
+var currentProofUrl='';
+
+function showProofUI(proofLink){
+  currentProofUrl=proofLink||'';
+  var dropZone=document.getElementById('proofDropZone');
+  var currentBox=document.getElementById('proofCurrentBox');
+  var viewAnchor=document.getElementById('proofViewAnchor');
+  var fileNameEl=document.getElementById('proofFileName');
+  if(proofLink&&proofLink.trim()){
+    dropZone.style.display='none';
+    currentBox.style.display='block';
+    viewAnchor.href=proofLink;
+    // Extract file name from URL
+    var parts=proofLink.split('/');var fname=decodeURIComponent(parts[parts.length-1]||'Proof File');
+    // Remove taskId prefix if present (format: TASKID_timestamp_filename)
+    var fparts=fname.split('_');if(fparts.length>=3)fname=fparts.slice(2).join('_');
+    fileNameEl.textContent=fname;
+  }else{
+    dropZone.style.display='block';
+    currentBox.style.display='none';
+    viewAnchor.href='#';
+    fileNameEl.textContent='—';
+  }
+}
+
+function removeProof(){
+  if(!confirm('Remove the uploaded proof file?'))return;
+  currentProofUrl='';
+  showProofUI('');
+  // Update the task's proofLink immediately
+  var t=tasks.find(function(x){return x.id===viewingTaskId;});
+  if(t){t.proofLink='';tasks=tasks.map(function(x){return x.id===viewingTaskId?t:x;});saveTask(t,function(){buildAll();showToast('Proof removed','i');});}
+}
+
+function uploadProofFile(file){
+  if(!file)return;
+  var t=tasks.find(function(x){return x.id===viewingTaskId;});if(!t)return;
+  // Show progress
+  var progress=document.getElementById('proofProgress');
+  var progressFill=document.getElementById('proofProgressFill');
+  var progressTxt=document.getElementById('proofProgressTxt');
+  var dropZone=document.getElementById('proofDropZone');
+  dropZone.style.display='none';
+  progress.style.display='block';
+  progressTxt.textContent='Uploading '+file.name+'...';
+  progressFill.style.width='30%';
+  // Build file name: taskId_timestamp_originalname
+  var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+  var fileName=t.id+'_'+Date.now()+'_'+safeName;
+  var url=SB_URL+'/storage/v1/object/task-proofs/'+encodeURIComponent(fileName);
+  var xhr=new XMLHttpRequest();
+  xhr.open('POST',url,true);
+  xhr.setRequestHeader('apikey',SB_KEY);
+  xhr.setRequestHeader('Authorization','Bearer '+SB_KEY);
+  xhr.setRequestHeader('Content-Type',file.type||'application/octet-stream');
+  xhr.setRequestHeader('x-upsert','true');
+  xhr.upload.onprogress=function(e){
+    if(e.lengthComputable){var pct=Math.round(e.loaded/e.total*100);progressFill.style.width=pct+'%';}
+  };
+  xhr.onload=function(){
+    progress.style.display='none';
+    if(xhr.status===200||xhr.status===201){
+      progressFill.style.width='100%';
+      var publicUrl=SB_URL+'/storage/v1/object/public/task-proofs/'+encodeURIComponent(fileName);
+      currentProofUrl=publicUrl;
+      // Save to task immediately
+      t.proofLink=publicUrl;
+      tasks=tasks.map(function(x){return x.id===viewingTaskId?t:x;});
+      saveTask(t,function(){buildAll();});
+      showProofUI(publicUrl);
+      showToast('✓ Proof uploaded successfully!','s');
+    }else{
+      dropZone.style.display='block';
+      showToast('Upload failed — check Supabase Storage bucket setup','e');
+      console.error('Upload error:',xhr.status,xhr.responseText);
+    }
+  };
+  xhr.onerror=function(){
+    progress.style.display='none';dropZone.style.display='block';
+    showToast('Upload failed — network error','e');
+  };
+  xhr.send(file);
+}
+
+// ═══════════════════════════════════════════════
 // TASK MODAL
 // ═══════════════════════════════════════════════
 function openTask(id){
@@ -1008,22 +1138,7 @@ function openTask(id){
   ].map(function(item){return'<div class="tdg-item"><div class="tdg-lbl">'+item.l+'</div><div class="tdg-val">'+item.v+'</div></div>';}).join('');
 
   // Proof section
-  document.getElementById('taskProofLink').value=t.proofLink||'';
-  var proofWrap=document.getElementById('proofViewBtnWrap');
-  if(t.proofLink&&t.proofLink.trim()){
-    proofWrap.innerHTML='<a class="proof-view-btn" href="'+escH(safeLink(t.proofLink))+'" target="_blank" rel="noopener">📎 View Proof / Evidence</a>';
-  }else{
-    proofWrap.innerHTML='<div style="font-size:11px;color:var(--dim);padding:6px 0">No proof added yet. Paste Google Drive link above and click Mark Done.</div>';
-  }
-  // Update proof view button on input change
-  document.getElementById('taskProofLink').oninput=function(){
-    var val=this.value.trim();
-    if(val){
-      proofWrap.innerHTML='<a class="proof-view-btn" href="'+escH(safeLink(val))+'" target="_blank" rel="noopener">📎 View Proof / Evidence</a>';
-    }else{
-      proofWrap.innerHTML='<div style="font-size:11px;color:var(--dim);padding:6px 0">No proof added yet.</div>';
-    }
-  };
+  showProofUI(t.proofLink||'');
 
   document.getElementById('taskNotes').value=t.notes||'';
   document.getElementById('taskActualDate').value=t.actualDate||today();
@@ -1045,16 +1160,15 @@ function saveTaskFromModal(status){
   var t=tasks.find(function(x){return x.id===viewingTaskId;});if(!t)return;
   t.notes=document.getElementById('taskNotes').value;
   t.assign=document.getElementById('taskAssign').value;
-  t.proofLink=document.getElementById('taskProofLink').value.trim();
+  // proofLink is already updated live by upload/remove functions
+  var currentProof=document.getElementById('proofViewAnchor').href;
+  if(currentProof&&currentProof!==window.location.href&&currentProof!=='#'){t.proofLink=currentProof;}
+  else if(document.getElementById('proofCurrentBox').style.display==='none'){t.proofLink='';}
   if(status==='Done'){
     t.actualDate=document.getElementById('taskActualDate').value||today();
     t.status='Done';
-    if(!t.proofLink){
-      if(!confirm('No proof link added. Mark as done without proof?'))return;
-    }
-  }else{
-    t.actualDate='';t.status='Pending';t.proofLink='';
-  }
+    if(!t.proofLink){if(!confirm('No proof file uploaded. Mark as done without proof?'))return;}
+  }else{t.actualDate='';t.status='Pending';}
   tasks=tasks.map(function(x){return x.id===viewingTaskId?t:x;});
   saveTask(t,function(){
     buildAll();
@@ -1246,6 +1360,19 @@ function showToast(msg,type){
 // ═══════════════════════════════════════════════
 window.onload=function(){
   SETTINGS=loadSettings();applyTheme(SETTINGS.theme);
+
+  // Proof file upload
+  document.getElementById('proofFileInput').addEventListener('change',function(e){
+    if(e.target.files[0])uploadProofFile(e.target.files[0]);
+    this.value='';
+  });
+  var dropZone=document.getElementById('proofDropZone');
+  dropZone.addEventListener('dragover',function(e){e.preventDefault();this.classList.add('dragover');});
+  dropZone.addEventListener('dragleave',function(){this.classList.remove('dragover');});
+  dropZone.addEventListener('drop',function(e){
+    e.preventDefault();this.classList.remove('dragover');
+    var file=e.dataTransfer.files[0];if(file)uploadProofFile(file);
+  });
 
   // Theme toggles
   ['loginThemeBtn','appThemeBtn','settingsThemeBtn'].forEach(function(id){
