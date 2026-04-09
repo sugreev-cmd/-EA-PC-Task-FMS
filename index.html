@@ -156,6 +156,12 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 .srch-box:focus-within{border-color:var(--teal)}
 .srch-box input{background:none;border:none;outline:none;color:var(--text);font-size:11px;width:160px}
 
+/* DATE FILTER */
+.date-filter-wrap{display:flex;gap:6px;align-items:center;}
+.date-filter-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);text-transform:uppercase;}
+.date-filter-input{padding:5px 8px;background:var(--s3);border:1px solid var(--bd);border-radius:7px;color:var(--text);font-size:10px;outline:none;font-family:'JetBrains Mono',monospace;}
+.date-filter-input:focus{border-color:var(--teal)}
+
 /* TABLE */
 .task-table{width:100%;border-collapse:collapse;min-width:900px}
 .task-table thead th{background:var(--table-head);padding:9px 14px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--dim);border-bottom:1px solid var(--bd);white-space:nowrap;}
@@ -361,6 +367,13 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
           <div class="sec-filters">
             <div class="srch-box"><span style="color:var(--dim)">🔍</span><input id="taskSrch" placeholder="Search task..."></div>
             <select class="month-sel" id="taskMonthSel"></select>
+            <div class="date-filter-wrap">
+              <span class="date-filter-label">From:</span>
+              <input type="date" class="date-filter-input" id="taskFromDate">
+              <span class="date-filter-label">To:</span>
+              <input type="date" class="date-filter-input" id="taskToDate">
+              <button class="flt-btn" id="clearDateFilter">Clear</button>
+            </div>
             <button class="flt-btn active" data-f="All">All</button>
             <button class="flt-btn" data-f="EA">EA</button>
             <button class="flt-btn" data-f="PC">PC</button>
@@ -388,7 +401,16 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
       <div class="sec-wrap">
         <div class="sec-hdr">
           <div class="sec-title" style="color:var(--teal)">📈 MIS Report</div>
-          <div class="sec-filters"><select class="month-sel" id="misMonthSel"></select></div>
+          <div class="sec-filters">
+            <select class="month-sel" id="misMonthSel"></select>
+            <div class="date-filter-wrap">
+              <span class="date-filter-label">From:</span>
+              <input type="date" class="date-filter-input" id="misFromDate">
+              <span class="date-filter-label">To:</span>
+              <input type="date" class="date-filter-input" id="misToDate">
+              <button class="flt-btn" id="clearMisDateFilter">Clear</button>
+            </div>
+          </div>
         </div>
         <div class="mis-grid" id="misCards"></div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--sub);text-transform:uppercase;margin-bottom:10px">📅 Weekly Breakdown</div>
@@ -605,6 +627,26 @@ function sbFetch(path,method,body){
 }
 
 // ══════════════════════════════════════════════════════════
+// ROLE-BASED TASK FILTERING
+// ══════════════════════════════════════════════════════════
+function filterTasksByRole(taskList) {
+  if (currentRole === 'owner') {
+    // Owner sees all tasks
+    return taskList;
+  } else if (currentRole === 'ea') {
+    // EA sees only EA tasks
+    return taskList.filter(function(t) { return t.section === 'EA'; });
+  } else if (currentRole === 'pc') {
+    // PC sees only PC tasks
+    return taskList.filter(function(t) { return t.section === 'PC'; });
+  } else if (currentRole === 'viewer') {
+    // Viewer sees all tasks (read-only)
+    return taskList;
+  }
+  return taskList;
+}
+
+// ══════════════════════════════════════════════════════════
 // SETTINGS
 // ══════════════════════════════════════════════════════════
 var DEFAULT_SETTINGS={
@@ -807,7 +849,8 @@ var overdueEmailsSent=[];
 function checkAndSendOverdueEmails(tasks){
   if(!SETTINGS.emailOverdue||!SETTINGS.resendKey)return;
   var curYM=getYM();
-  tasks.filter(function(t){return t.monthKey===curYM&&calcStatus(t)==='Overdue'&&!t.actualDate;}).forEach(function(t){
+  var filteredTasks = filterTasksByRole(tasks);
+  filteredTasks.filter(function(t){return t.monthKey===curYM&&calcStatus(t)==='Overdue'&&!t.actualDate;}).forEach(function(t){
     if(overdueEmailsSent.indexOf(t.id)<0){overdueEmailsSent.push(t.id);emailOverdueAlert(t);}
   });
 }
@@ -817,7 +860,8 @@ function checkDailyReminder(tasks){
   if(SETTINGS.lastReminderDate===todayStr)return;
   var parts=(SETTINGS.reminderTime||'09:00').split(':');
   if(now.getHours()>parseInt(parts[0])||(now.getHours()===parseInt(parts[0])&&now.getMinutes()>=parseInt(parts[1]||0))){
-    var due=tasks.filter(function(t){return t.dueDate===todayStr&&!t.actualDate;});
+    var filteredTasks = filterTasksByRole(tasks);
+    var due=filteredTasks.filter(function(t){return t.dueDate===todayStr&&!t.actualDate;});
     if(due.length){emailDailyReminder(due);SETTINGS.lastReminderDate=todayStr;saveSettings(SETTINGS);}
   }
 }
@@ -926,7 +970,7 @@ function calcStatus(task){
   if(task.dueDate===today())return'Due Today';
   return'Pending';
 }
-function getTasksForMonth(ym){return tasks.filter(function(t){return t.monthKey===ym;});}
+function getTasksForMonth(ym){return filterTasksByRole(tasks.filter(function(t){return t.monthKey===ym;}));}
 
 // ══════════════════════════════════════════════════════════
 // BUILD ALL
@@ -997,13 +1041,23 @@ function buildDash(ym,curTasks){
 // ══════════════════════════════════════════════════════════
 function buildTasksView(ym){
   var q=document.getElementById('taskSrch')?document.getElementById('taskSrch').value.toLowerCase():'';
+  var fromDate=document.getElementById('taskFromDate')?document.getElementById('taskFromDate').value:'';
+  var toDate=document.getElementById('taskToDate')?document.getElementById('taskToDate').value:'';
+  
   var data=getTasksForMonth(ym).filter(function(t){
     var st=calcStatus(t);
     if(taskFilt==='EA')return t.section==='EA';if(taskFilt==='PC')return t.section==='PC';
     if(taskFilt==='Admin')return t.section==='Admin';if(taskFilt==='Custom')return t.section==='Custom';
     if(taskFilt==='Overdue')return st==='Overdue';if(taskFilt==='Pending')return st==='Pending'||st==='Due Today';
     if(taskFilt==='Done')return!!t.actualDate;return true;
-  }).filter(function(t){if(!q)return true;return(t.name+t.section+t.assign).toLowerCase().indexOf(q)>-1;});
+  }).filter(function(t){
+    if(!q)return true;
+    return(t.name+t.section+t.assign).toLowerCase().indexOf(q)>-1;
+  }).filter(function(t){
+    if(fromDate && t.dueDate < fromDate) return false;
+    if(toDate && t.dueDate > toDate) return false;
+    return true;
+  });
 
   document.getElementById('taskBody').innerHTML=data.length?data.map(function(t,i){
     var st=calcStatus(t);var spc={Done:'sp-done',Overdue:'sp-overdue',Pending:'sp-pending','Due Today':'sp-today'}[st]||'sp-pending';
@@ -1017,7 +1071,15 @@ function buildTasksView(ym){
 // MIS
 // ══════════════════════════════════════════════════════════
 function buildMIS(ym){
-  var mt=getTasksForMonth(ym);
+  var fromDate=document.getElementById('misFromDate')?document.getElementById('misFromDate').value:'';
+  var toDate=document.getElementById('misToDate')?document.getElementById('misToDate').value:'';
+  
+  var mt=getTasksForMonth(ym).filter(function(t){
+    if(fromDate && t.dueDate < fromDate) return false;
+    if(toDate && t.dueDate > toDate) return false;
+    return true;
+  });
+  
   var total=mt.length,done=mt.filter(function(t){return t.actualDate;}).length;
   var overdue=mt.filter(function(t){return calcStatus(t)==='Overdue';}).length;
   var delayed=mt.filter(function(t){return t.actualDate&&t.dueDate&&t.actualDate>t.dueDate;}).length;
@@ -1085,9 +1147,15 @@ function openTask(id){
   document.getElementById('taskActualDate').value=t.actualDate||today();
   
   var proofView=document.getElementById('proofLinkView');
-  if(t.proofLink){
-    proofView.innerHTML='<div class="proof-link-view"><span style="font-size:10px;color:var(--dim)">🔗</span><a href="'+escH(t.proofLink)+'" target="_blank" rel="noopener noreferrer">'+escH(t.proofLink)+'</a></div>';
-    proofView.style.display='block';
+  if(t.proofLink && t.actualDate){
+    // Show proof link only if task is done AND owner is viewing
+    if(currentRole === 'owner') {
+      proofView.innerHTML='<div class="proof-link-view"><span style="font-size:10px;color:var(--dim)">🔗</span><a href="'+escH(t.proofLink)+'" target="_blank" rel="noopener noreferrer">'+escH(t.proofLink)+'</a></div>';
+      proofView.style.display='block';
+    } else {
+      proofView.innerHTML='<div style="font-size:11px;color:var(--dim);padding:8px">Proof link available (Owner can view)</div>';
+      proofView.style.display='block';
+    }
   }else{
     proofView.style.display='none';
   }
@@ -1437,6 +1505,24 @@ window.onload=function(){
   document.getElementById('markPendingBtn').addEventListener('click',function(){saveTaskFromModal('Pending');});
   document.getElementById('deleteTaskBtn').addEventListener('click',deleteTaskFromModal);
   document.getElementById('saveAddTaskBtn').addEventListener('click',saveAddTask);
+  
+  // Date filter listeners
+  document.getElementById('taskFromDate').addEventListener('change',function(){buildTasksView(document.getElementById('taskMonthSel').value||getYM());});
+  document.getElementById('taskToDate').addEventListener('change',function(){buildTasksView(document.getElementById('taskMonthSel').value||getYM());});
+  document.getElementById('clearDateFilter').addEventListener('click',function(){
+    document.getElementById('taskFromDate').value='';
+    document.getElementById('taskToDate').value='';
+    buildTasksView(document.getElementById('taskMonthSel').value||getYM());
+  });
+  
+  document.getElementById('misFromDate').addEventListener('change',function(){buildMIS(document.getElementById('misMonthSel').value||getYM());});
+  document.getElementById('misToDate').addEventListener('change',function(){buildMIS(document.getElementById('misMonthSel').value||getYM());});
+  document.getElementById('clearMisDateFilter').addEventListener('click',function(){
+    document.getElementById('misFromDate').value='';
+    document.getElementById('misToDate').value='';
+    buildMIS(document.getElementById('misMonthSel').value||getYM());
+  });
+  
   document.querySelectorAll('#view-tasks .flt-btn').forEach(function(btn){
     btn.addEventListener('click',function(){
       taskFilt=btn.getAttribute('data-f');
