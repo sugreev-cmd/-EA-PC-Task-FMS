@@ -169,6 +169,35 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 .task-table tbody tr:hover{background:rgba(0,191,165,.03)}
 .task-table td{padding:10px 14px;vertical-align:middle}
 
+/* PROOF LINK ICON IN TABLE */
+.proof-link-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:24px;
+  height:24px;
+  background:var(--teal2);
+  border:1px solid rgba(0,191,165,.3);
+  border-radius:6px;
+  color:var(--teal);
+  font-size:12px;
+  cursor:pointer;
+  transition:all .2s;
+  text-decoration:none;
+}
+.proof-link-icon:hover{
+  background:var(--teal);
+  color:var(--bg);
+  box-shadow:0 0 12px rgba(0,191,165,.3);
+}
+.proof-link-icon.disabled{
+  background:var(--s3);
+  border-color:var(--bd);
+  color:var(--dim);
+  cursor:not-allowed;
+  opacity:0.5;
+}
+
 /* Section badges */
 .tt-section{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:5px;font-size:9px;font-weight:700;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;}
 .s-ea{background:rgba(0,191,165,.12);color:var(--teal);border:1px solid rgba(0,191,165,.25)}
@@ -352,7 +381,7 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
           <div style="padding:10px 14px;background:var(--s3);border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1.5px;color:var(--sub);text-transform:uppercase">📋 All Tasks This Month</div>
           <div class="tw-scroll">
             <table class="task-table">
-              <thead><tr><th>Category</th><th>Task</th><th>Due Date</th><th>Frequency</th><th>Assigned</th><th>Status</th></tr></thead>
+              <thead><tr><th>Category</th><th>Task</th><th>Due Date</th><th>Frequency</th><th>Assigned</th><th>Status</th><th>Proof</th></tr></thead>
               <tbody id="dashTaskBody"></tbody>
             </table>
           </div>
@@ -388,7 +417,7 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
         <div class="tw-wrap">
           <div class="tw-scroll">
             <table class="task-table">
-              <thead><tr><th>#</th><th>Category</th><th>Task</th><th>Frequency</th><th>Due Date</th><th>Assigned To</th><th>Status</th><th>Completed On</th><th>Notes</th></tr></thead>
+              <thead><tr><th>#</th><th>Category</th><th>Task</th><th>Frequency</th><th>Due Date</th><th>Assigned To</th><th>Status</th><th>Completed On</th><th>Notes</th><th>Proof</th></tr></thead>
               <tbody id="taskBody"></tbody>
             </table>
           </div>
@@ -903,6 +932,19 @@ function populateAssignDropdowns(){
 }
 
 // ══════════════════════════════════════════════════════════
+// PROOF LINK HELPERS
+// ══════════════════════════════════════════════════════════
+function renderProofIcon(task){
+  if(!task.proofLink)return'<span style="color:var(--dim);font-size:10px">—</span>';
+  
+  if(currentRole === 'owner') {
+    return'<a href="'+escH(task.proofLink)+'" target="_blank" rel="noopener" class="proof-link-icon" title="Open proof link" onclick="event.stopPropagation()">🔗</a>';
+  } else {
+    return'<span class="proof-link-icon disabled" title="Owner can view">🔒</span>';
+  }
+}
+
+// ══════════════════════════════════════════════════════════
 // SUPABASE DATA
 // ══════════════════════════════════════════════════════════
 function setSS(s,t){var d=document.getElementById('syncDot'),tx=document.getElementById('syncTxt');d.className='sync-dot '+s;tx.textContent=t;}
@@ -1036,7 +1078,7 @@ function buildDash(ym,curTasks){
     else if(t.freq==='Monthly')freqBadge='fb-m';
     else if(t.freq==='Quarterly')freqBadge='fb-q';
     else if(t.freq==='Annual')freqBadge='fb-a';
-    return'<tr onclick="openTask(\''+t.id+'\')"><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--sub)">'+fmtDate(t.dueDate)+'</td><td><span class="freq-badge '+freqBadge+'">'+t.freq+'</span></td><td style="font-size:10px;color:var(--dim)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td></tr>';
+    return'<tr onclick="openTask(\''+t.id+'\')"><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--sub)">'+fmtDate(t.dueDate)+'</td><td><span class="freq-badge '+freqBadge+'">'+t.freq+'</span></td><td style="font-size:10px;color:var(--dim)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td><td>'+renderProofIcon(t)+'</td></tr>';
   }).join('');
 }
 
@@ -1073,8 +1115,8 @@ function buildTasksView(ym){
     else if(t.freq==='Monthly')freqBadge='fb-m';
     else if(t.freq==='Quarterly')freqBadge='fb-q';
     else if(t.freq==='Annual')freqBadge='fb-a';
-    return'<tr onclick="openTask(\''+t.id+'\')"><td style="font-size:10px;color:var(--dim);font-family:JetBrains Mono,monospace">'+(i+1)+'</td><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td><span class="freq-badge '+freqBadge+'">'+t.freq+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:'+(st==='Overdue'?'var(--red)':st==='Due Today'?'var(--gold)':'var(--sub)')+'">'+fmtDate(t.dueDate)+(isHol?' 🏖':'')+'</td><td style="font-size:10px;color:var(--sub)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--green)">'+fmtDate(t.actualDate)+'</td><td style="font-size:10px;color:var(--dim);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.notes||'—')+'</td></tr>';
-  }).join(''):'<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--dim)">No tasks found</td></tr>';
+    return'<tr onclick="openTask(\''+t.id+'\')"><td style="font-size:10px;color:var(--dim);font-family:JetBrains Mono,monospace">'+(i+1)+'</td><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td><span class="freq-badge '+freqBadge+'">'+t.freq+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:'+(st==='Overdue'?'var(--red)':st==='Due Today'?'var(--gold)':'var(--sub)')+'">'+fmtDate(t.dueDate)+(isHol?' 🏖':'')+'</td><td style="font-size:10px;color:var(--sub)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--green)">'+fmtDate(t.actualDate)+'</td><td style="font-size:10px;color:var(--dim);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.notes||'—')+'</td><td>'+renderProofIcon(t)+'</td></tr>';
+  }).join(''):'<tr><td colspan="10" style="text-align:center;padding:30px;color:var(--dim)">No tasks found</td></tr>';
 }
 
 // ══════════════════════════════════════════════════════════
@@ -1202,16 +1244,15 @@ function deleteTaskFromModal(){
 }
 
 // ══════════════════════════════════════════════════════════
-// AUTO-RECURRING TASKS - UPDATED WITH FUTURE DATES & 12 MONTHS DAILY
+// AUTO-RECURRING TASKS - UPDATED: GENERATE FROM SELECTED DATE (NOT TODAY)
 // ══════════════════════════════════════════════════════════
 function generateRecurringTasks(baseTask){
   var freq=baseTask.freq;
   var baseDue=new Date(baseTask.dueDate);
-  var todayDate=new Date(today());
   var newTasks=[];
   
   if(freq==='Daily'){
-    // Generate daily tasks for NEXT 12 MONTHS from selected date
+    // Generate daily tasks for 12 MONTHS from selected date (NOT from today)
     var currentDate = new Date(baseDue);
     var endDate = new Date(baseDue);
     endDate.setMonth(endDate.getMonth() + 12);
@@ -1219,7 +1260,7 @@ function generateRecurringTasks(baseTask){
     while(currentDate <= endDate) {
       var dateStr = currentDate.toISOString().split('T')[0];
       
-      if(currentDate >= todayDate && isWorkingDay(dateStr)) {
+      if(isWorkingDay(dateStr)) {
         var ym = dateStr.substring(0,7);
         newTasks.push({
           id:genId(),section:baseTask.section,name:baseTask.name,freq:'Daily',
@@ -1238,7 +1279,6 @@ function generateRecurringTasks(baseTask){
     for(var i=0;i<52;i++){
       var futureDate=new Date(startYear,startMonth,dayOfMonth);
       futureDate.setDate(futureDate.getDate()+(i*7));
-      if(futureDate<todayDate)continue;
       
       var dueDateStr=futureDate.toISOString().split('T')[0];
       dueDateStr=toWorkingDay(dueDateStr);
@@ -1255,7 +1295,6 @@ function generateRecurringTasks(baseTask){
     var dayOfMonth=baseDue.getDate();
     for(var i=0;i<12;i++){
       var futureDate=new Date(baseDue.getFullYear(),baseDue.getMonth()+i,dayOfMonth);
-      if(futureDate<todayDate)continue;
       var maxDay=new Date(futureDate.getFullYear(),futureDate.getMonth()+1,0).getDate();
       if(dayOfMonth>maxDay)futureDate.setDate(maxDay);
       
@@ -1274,7 +1313,6 @@ function generateRecurringTasks(baseTask){
     var dayOfMonth=baseDue.getDate();
     for(var i=0;i<4;i++){
       var futureDate=new Date(baseDue.getFullYear(),baseDue.getMonth()+(i*3),dayOfMonth);
-      if(futureDate<todayDate)continue;
       var maxDay=new Date(futureDate.getFullYear(),futureDate.getMonth()+1,0).getDate();
       if(dayOfMonth>maxDay)futureDate.setDate(maxDay);
       
@@ -1294,7 +1332,6 @@ function generateRecurringTasks(baseTask){
     var monthOfYear=baseDue.getMonth();
     for(var i=0;i<3;i++){
       var futureDate=new Date(baseDue.getFullYear()+i,monthOfYear,dayOfMonth);
-      if(futureDate<todayDate)continue;
       var maxDay=new Date(futureDate.getFullYear(),futureDate.getMonth()+1,0).getDate();
       if(dayOfMonth>maxDay)futureDate.setDate(maxDay);
       
@@ -1381,7 +1418,7 @@ function saveAddTask(){
   }else{
     var recurring=generateRecurringTasks(baseTask);
     if(recurring.length===0){
-      showToast('No tasks generated (all dates in past)','e');return;
+      showToast('No tasks generated','e');return;
     }
     
     setSS('saving','Creating '+recurring.length+' tasks...');
