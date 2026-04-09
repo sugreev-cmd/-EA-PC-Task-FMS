@@ -169,7 +169,7 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 .task-table tbody tr:hover{background:rgba(0,191,165,.03)}
 .task-table td{padding:10px 14px;vertical-align:middle}
 
-/* Section badges — using EA/PC categories */
+/* Section badges */
 .tt-section{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:5px;font-size:9px;font-weight:700;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;}
 .s-ea{background:rgba(0,191,165,.12);color:var(--teal);border:1px solid rgba(0,191,165,.25)}
 .s-pc{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.25)}
@@ -184,6 +184,7 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 @keyframes pulse-red{0%,100%{box-shadow:none}50%{box-shadow:0 0 8px rgba(255,68,68,.3)}}
 .freq-badge{padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;}
 .fb-d{background:rgba(0,230,118,.08);color:var(--green)}
+.fb-w{background:rgba(0,212,255,.08);color:var(--cyan)}
 .fb-m{background:rgba(0,191,165,.08);color:var(--teal)}.fb-q{background:rgba(176,96,255,.08);color:var(--purple)}.fb-a{background:rgba(255,140,66,.08);color:var(--orange)}
 .tw-wrap{background:var(--s2);border:1px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1)}
 .tw-scroll{overflow-x:auto}
@@ -582,6 +583,7 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
           <select class="fs" id="at-freq">
             <option value="One-time">One-time</option>
             <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
             <option value="Monthly" selected>Monthly</option>
             <option value="Quarterly">Quarterly</option>
             <option value="Annual">Annual</option>
@@ -631,16 +633,12 @@ function sbFetch(path,method,body){
 // ══════════════════════════════════════════════════════════
 function filterTasksByRole(taskList) {
   if (currentRole === 'owner') {
-    // Owner sees all tasks
     return taskList;
   } else if (currentRole === 'ea') {
-    // EA sees only EA tasks
     return taskList.filter(function(t) { return t.section === 'EA'; });
   } else if (currentRole === 'pc') {
-    // PC sees only PC tasks
     return taskList.filter(function(t) { return t.section === 'PC'; });
   } else if (currentRole === 'viewer') {
-    // Viewer sees all tasks (read-only)
     return taskList;
   }
   return taskList;
@@ -1032,7 +1030,13 @@ function buildDash(ym,curTasks){
   document.getElementById('dashTaskBody').innerHTML=curTasks.map(function(t){
     var st=calcStatus(t);var spc={Done:'sp-done',Overdue:'sp-overdue',Pending:'sp-pending','Due Today':'sp-today'}[st]||'sp-pending';
     var sc={EA:'s-ea',PC:'s-pc',Admin:'s-admin',Custom:'s-cus'}[t.section]||'s-cus';
-    return'<tr onclick="openTask(\''+t.id+'\')"><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--sub)">'+fmtDate(t.dueDate)+'</td><td><span class="freq-badge '+(t.freq==='Daily'?'fb-d':t.freq==='Monthly'?'fb-m':t.freq==='Quarterly'?'fb-q':'fb-a')+'">'+t.freq+'</span></td><td style="font-size:10px;color:var(--dim)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td></tr>';
+    var freqBadge='fb-m';
+    if(t.freq==='Daily')freqBadge='fb-d';
+    else if(t.freq==='Weekly')freqBadge='fb-w';
+    else if(t.freq==='Monthly')freqBadge='fb-m';
+    else if(t.freq==='Quarterly')freqBadge='fb-q';
+    else if(t.freq==='Annual')freqBadge='fb-a';
+    return'<tr onclick="openTask(\''+t.id+'\')"><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--sub)">'+fmtDate(t.dueDate)+'</td><td><span class="freq-badge '+freqBadge+'">'+t.freq+'</span></td><td style="font-size:10px;color:var(--dim)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td></tr>';
   }).join('');
 }
 
@@ -1063,7 +1067,13 @@ function buildTasksView(ym){
     var st=calcStatus(t);var spc={Done:'sp-done',Overdue:'sp-overdue',Pending:'sp-pending','Due Today':'sp-today'}[st]||'sp-pending';
     var sc={EA:'s-ea',PC:'s-pc',Admin:'s-admin',Custom:'s-cus'}[t.section]||'s-cus';
     var isHol=isHoliday(t.dueDate);
-    return'<tr onclick="openTask(\''+t.id+'\')"><td style="font-size:10px;color:var(--dim);font-family:JetBrains Mono,monospace">'+(i+1)+'</td><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td><span class="freq-badge '+(t.freq==='Daily'?'fb-d':t.freq==='Monthly'?'fb-m':t.freq==='Quarterly'?'fb-q':'fb-a')+'">'+t.freq+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:'+(st==='Overdue'?'var(--red)':st==='Due Today'?'var(--gold)':'var(--sub)')+'">'+fmtDate(t.dueDate)+(isHol?' 🏖':'')+'</td><td style="font-size:10px;color:var(--sub)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--green)">'+fmtDate(t.actualDate)+'</td><td style="font-size:10px;color:var(--dim);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.notes||'—')+'</td></tr>';
+    var freqBadge='fb-m';
+    if(t.freq==='Daily')freqBadge='fb-d';
+    else if(t.freq==='Weekly')freqBadge='fb-w';
+    else if(t.freq==='Monthly')freqBadge='fb-m';
+    else if(t.freq==='Quarterly')freqBadge='fb-q';
+    else if(t.freq==='Annual')freqBadge='fb-a';
+    return'<tr onclick="openTask(\''+t.id+'\')"><td style="font-size:10px;color:var(--dim);font-family:JetBrains Mono,monospace">'+(i+1)+'</td><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td><span class="freq-badge '+freqBadge+'">'+t.freq+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:'+(st==='Overdue'?'var(--red)':st==='Due Today'?'var(--gold)':'var(--sub)')+'">'+fmtDate(t.dueDate)+(isHol?' 🏖':'')+'</td><td style="font-size:10px;color:var(--sub)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--green)">'+fmtDate(t.actualDate)+'</td><td style="font-size:10px;color:var(--dim);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.notes||'—')+'</td></tr>';
   }).join(''):'<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--dim)">No tasks found</td></tr>';
 }
 
@@ -1131,11 +1141,17 @@ function openTask(id){
   var sc={EA:'s-ea',PC:'s-pc',Admin:'s-admin',Custom:'s-cus'}[t.section]||'s-cus';
   document.getElementById('taskMoTitle').innerHTML=escH(t.section)+' <span>Task Detail</span>';
   var assigneeEmail=getMemberEmail(t.assign);
+  var freqBadge='fb-m';
+  if(t.freq==='Daily')freqBadge='fb-d';
+  else if(t.freq==='Weekly')freqBadge='fb-w';
+  else if(t.freq==='Monthly')freqBadge='fb-m';
+  else if(t.freq==='Quarterly')freqBadge='fb-q';
+  else if(t.freq==='Annual')freqBadge='fb-a';
   document.getElementById('taskDetailGrid').innerHTML=[
     {l:'Category',v:'<span class="tt-section '+sc+'">'+t.section+'</span>'},
     {l:'Status',v:'<span class="status-pill '+spc+'">'+st+'</span>'},
     {l:'Due Date',v:fmtDate(t.dueDate)+(isHoliday(t.dueDate)?' 🏖':'')+(isSunday(t.dueDate)?' 🚫':'')},
-    {l:'Frequency',v:'<span class="freq-badge '+(t.freq==='Daily'?'fb-d':t.freq==='Monthly'?'fb-m':t.freq==='Quarterly'?'fb-q':'fb-a')+'">'+t.freq+'</span>'},
+    {l:'Frequency',v:'<span class="freq-badge '+freqBadge+'">'+t.freq+'</span>'},
     {l:'Month',v:ymLabel(t.monthKey)},
     {l:'Task',v:'<div style="font-size:12px;font-weight:600">'+escH(t.name)+'</div>'},
     {l:'Assignee Email',v:'<span style="font-size:10px;color:var(--teal)">'+escH(assigneeEmail||'—')+'</span>'},
@@ -1148,7 +1164,6 @@ function openTask(id){
   
   var proofView=document.getElementById('proofLinkView');
   if(t.proofLink && t.actualDate){
-    // Show proof link only if task is done AND owner is viewing
     if(currentRole === 'owner') {
       proofView.innerHTML='<div class="proof-link-view"><span style="font-size:10px;color:var(--dim)">🔗</span><a href="'+escH(t.proofLink)+'" target="_blank" rel="noopener noreferrer">'+escH(t.proofLink)+'</a></div>';
       proofView.style.display='block';
@@ -1187,47 +1202,60 @@ function deleteTaskFromModal(){
 }
 
 // ══════════════════════════════════════════════════════════
-// AUTO-RECURRING TASKS - DAILY, MONTHLY, QUARTERLY, ANNUAL
+// AUTO-RECURRING TASKS - UPDATED WITH FUTURE DATES & 12 MONTHS DAILY
 // ══════════════════════════════════════════════════════════
 function generateRecurringTasks(baseTask){
   var freq=baseTask.freq;
   var baseDue=new Date(baseTask.dueDate);
+  var todayDate=new Date(today());
   var newTasks=[];
   
   if(freq==='Daily'){
-    // Generate for current month only - all working days
-    var ym=baseTask.monthKey;
-    var parts=ym.split('-');
-    var year=parseInt(parts[0]);
-    var month=parseInt(parts[1]);
-    var daysInMonth=new Date(year,month,0).getDate();
+    // Generate daily tasks for NEXT 12 MONTHS from selected date
+    var currentDate = new Date(baseDue);
+    var endDate = new Date(baseDue);
+    endDate.setMonth(endDate.getMonth() + 12);
     
-    for(var day=1;day<=daysInMonth;day++){
-      var dateStr=year+'-'+String(month).padStart(2,'0')+'-'+String(day).padStart(2,'0');
-      if(!isWorkingDay(dateStr))continue;
+    while(currentDate <= endDate) {
+      var dateStr = currentDate.toISOString().split('T')[0];
       
-      var taskName=baseTask.name;
+      if(currentDate >= todayDate && isWorkingDay(dateStr)) {
+        var ym = dateStr.substring(0,7);
+        newTasks.push({
+          id:genId(),section:baseTask.section,name:baseTask.name,freq:'Daily',
+          dueDate:dateStr,actualDate:'',status:'Pending',assign:baseTask.assign,
+          notes:baseTask.notes,monthKey:ym,isCustom:true,proofLink:''
+        });
+      }
+      
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  }
+  else if(freq==='Weekly'){
+    var dayOfMonth=baseDue.getDate();
+    var startMonth=baseDue.getMonth();
+    var startYear=baseDue.getFullYear();
+    for(var i=0;i<52;i++){
+      var futureDate=new Date(startYear,startMonth,dayOfMonth);
+      futureDate.setDate(futureDate.getDate()+(i*7));
+      if(futureDate<todayDate)continue;
+      
+      var dueDateStr=futureDate.toISOString().split('T')[0];
+      dueDateStr=toWorkingDay(dueDateStr);
+      var ym=dueDateStr.substring(0,7);
+      
       newTasks.push({
-        id:genId(),
-        section:baseTask.section,
-        name:taskName,
-        freq:'Daily',
-        dueDate:dateStr,
-        actualDate:'',
-        status:'Pending',
-        assign:baseTask.assign,
-        notes:baseTask.notes,
-        monthKey:ym,
-        isCustom:true,
-        proofLink:''
+        id:genId(),section:baseTask.section,name:baseTask.name,freq:'Weekly',
+        dueDate:dueDateStr,actualDate:'',status:'Pending',assign:baseTask.assign,
+        notes:baseTask.notes,monthKey:ym,isCustom:true,proofLink:''
       });
     }
   }
   else if(freq==='Monthly'){
-    // Generate for next 12 months
     var dayOfMonth=baseDue.getDate();
     for(var i=0;i<12;i++){
       var futureDate=new Date(baseDue.getFullYear(),baseDue.getMonth()+i,dayOfMonth);
+      if(futureDate<todayDate)continue;
       var maxDay=new Date(futureDate.getFullYear(),futureDate.getMonth()+1,0).getDate();
       if(dayOfMonth>maxDay)futureDate.setDate(maxDay);
       
@@ -1236,26 +1264,17 @@ function generateRecurringTasks(baseTask){
       var ym=dueDateStr.substring(0,7);
       
       newTasks.push({
-        id:genId(),
-        section:baseTask.section,
-        name:baseTask.name,
-        freq:'Monthly',
-        dueDate:dueDateStr,
-        actualDate:'',
-        status:'Pending',
-        assign:baseTask.assign,
-        notes:baseTask.notes,
-        monthKey:ym,
-        isCustom:true,
-        proofLink:''
+        id:genId(),section:baseTask.section,name:baseTask.name,freq:'Monthly',
+        dueDate:dueDateStr,actualDate:'',status:'Pending',assign:baseTask.assign,
+        notes:baseTask.notes,monthKey:ym,isCustom:true,proofLink:''
       });
     }
   }
   else if(freq==='Quarterly'){
-    // Generate for next 4 quarters
     var dayOfMonth=baseDue.getDate();
     for(var i=0;i<4;i++){
       var futureDate=new Date(baseDue.getFullYear(),baseDue.getMonth()+(i*3),dayOfMonth);
+      if(futureDate<todayDate)continue;
       var maxDay=new Date(futureDate.getFullYear(),futureDate.getMonth()+1,0).getDate();
       if(dayOfMonth>maxDay)futureDate.setDate(maxDay);
       
@@ -1264,27 +1283,18 @@ function generateRecurringTasks(baseTask){
       var ym=dueDateStr.substring(0,7);
       
       newTasks.push({
-        id:genId(),
-        section:baseTask.section,
-        name:baseTask.name,
-        freq:'Quarterly',
-        dueDate:dueDateStr,
-        actualDate:'',
-        status:'Pending',
-        assign:baseTask.assign,
-        notes:baseTask.notes,
-        monthKey:ym,
-        isCustom:true,
-        proofLink:''
+        id:genId(),section:baseTask.section,name:baseTask.name,freq:'Quarterly',
+        dueDate:dueDateStr,actualDate:'',status:'Pending',assign:baseTask.assign,
+        notes:baseTask.notes,monthKey:ym,isCustom:true,proofLink:''
       });
     }
   }
   else if(freq==='Annual'){
-    // Generate for next 3 years
     var dayOfMonth=baseDue.getDate();
     var monthOfYear=baseDue.getMonth();
     for(var i=0;i<3;i++){
       var futureDate=new Date(baseDue.getFullYear()+i,monthOfYear,dayOfMonth);
+      if(futureDate<todayDate)continue;
       var maxDay=new Date(futureDate.getFullYear(),futureDate.getMonth()+1,0).getDate();
       if(dayOfMonth>maxDay)futureDate.setDate(maxDay);
       
@@ -1293,18 +1303,9 @@ function generateRecurringTasks(baseTask){
       var ym=dueDateStr.substring(0,7);
       
       newTasks.push({
-        id:genId(),
-        section:baseTask.section,
-        name:baseTask.name,
-        freq:'Annual',
-        dueDate:dueDateStr,
-        actualDate:'',
-        status:'Pending',
-        assign:baseTask.assign,
-        notes:baseTask.notes,
-        monthKey:ym,
-        isCustom:true,
-        proofLink:''
+        id:genId(),section:baseTask.section,name:baseTask.name,freq:'Annual',
+        dueDate:dueDateStr,actualDate:'',status:'Pending',assign:baseTask.assign,
+        notes:baseTask.notes,monthKey:ym,isCustom:true,proofLink:''
       });
     }
   }
@@ -1335,10 +1336,11 @@ function updateRecurringNote(){
   }else{
     note.style.display='block';
     var messages={
-      'Daily':'ℹ️ Task will be created for ALL working days this month (Sunday + Holidays skipped)',
-      'Monthly':'ℹ️ Task will be created for next 12 months on same date (Sunday + Holidays → Previous working day)',
-      'Quarterly':'ℹ️ Task will be created for next 4 quarters on same date (Sunday + Holidays → Previous working day)',
-      'Annual':'ℹ️ Task will be created for next 3 years on same date (Sunday + Holidays → Previous working day)'
+      'Daily':'ℹ️ Tasks created for ALL working days for NEXT 12 MONTHS from selected date (Sunday + Holidays skipped)',
+      'Weekly':'ℹ️ 52 tasks created weekly FROM selected date (Sunday + Holidays → Previous working day)',
+      'Monthly':'ℹ️ 12 tasks created monthly FROM selected date (Sunday + Holidays → Previous working day)',
+      'Quarterly':'ℹ️ 4 tasks created quarterly FROM selected date (Sunday + Holidays → Previous working day)',
+      'Annual':'ℹ️ 3 tasks created annually FROM selected date (Sunday + Holidays → Previous working day)'
     };
     text.textContent=messages[freq]||'';
   }
@@ -1370,7 +1372,6 @@ function saveAddTask(){
   };
   
   if(freq==='One-time'){
-    // Just add single task
     tasks.push(baseTask);
     saveTask(baseTask,function(){
       buildAll();
@@ -1378,10 +1379,9 @@ function saveAddTask(){
       if(SETTINGS.emailNew&&baseTask.assign)emailNewTaskAssigned(baseTask);
     });
   }else{
-    // Generate recurring tasks
     var recurring=generateRecurringTasks(baseTask);
     if(recurring.length===0){
-      showToast('No tasks generated','e');return;
+      showToast('No tasks generated (all dates in past)','e');return;
     }
     
     setSS('saving','Creating '+recurring.length+' tasks...');
@@ -1506,7 +1506,6 @@ window.onload=function(){
   document.getElementById('deleteTaskBtn').addEventListener('click',deleteTaskFromModal);
   document.getElementById('saveAddTaskBtn').addEventListener('click',saveAddTask);
   
-  // Date filter listeners
   document.getElementById('taskFromDate').addEventListener('change',function(){buildTasksView(document.getElementById('taskMonthSel').value||getYM());});
   document.getElementById('taskToDate').addEventListener('change',function(){buildTasksView(document.getElementById('taskMonthSel').value||getYM());});
   document.getElementById('clearDateFilter').addEventListener('click',function(){
