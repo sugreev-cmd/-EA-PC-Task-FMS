@@ -33,14 +33,10 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);colo
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
 input,select,textarea,button{font-family:'DM Sans',sans-serif}
 .page{display:none}.page.active{display:flex}
-
-/* THEME TOGGLE */
 .theme-toggle{width:44px;height:24px;border-radius:12px;background:var(--s3);border:1px solid var(--bd);cursor:pointer;position:relative;transition:all .25s;flex-shrink:0;}
 .theme-toggle::before{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--teal);transition:transform .25s,background .25s;}
 [data-theme="light"] .theme-toggle::before{transform:translateX(20px);background:var(--gold);}
 .theme-icons{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 5px;pointer-events:none;font-size:9px;}
-
-/* SETTINGS */
 .settings-btn{width:30px;height:30px;border-radius:8px;border:1px solid var(--bd);background:none;color:var(--sub);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .settings-btn:hover{border-color:var(--teal);color:var(--teal)}
 .settings-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;backdrop-filter:blur(6px);}
@@ -63,18 +59,12 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 .theme-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--s3);border:1px solid var(--bd);border-radius:10px;margin-top:8px;}
 .sp-info-box{background:var(--teal2);border:1px solid rgba(0,191,165,.2);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--teal);margin-top:8px;line-height:1.6;}
 .sp-warn-box{background:var(--gold2);border:1px solid rgba(255,184,0,.2);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--gold);margin-top:8px;line-height:1.6;}
-
-/* TEAM MEMBER ROW */
 .tm-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:6px;align-items:center;margin-bottom:8px;}
 .tm-del{width:28px;height:28px;background:var(--red2);border:1px solid rgba(255,68,68,.3);border-radius:7px;color:var(--red);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-
-/* HOLIDAY ROW */
 .hl-row{display:flex;align-items:center;gap:6px;margin-bottom:7px;}
 .hl-date{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--teal);min-width:80px;}
 .hl-name{flex:1;font-size:11px;color:var(--text);}
 .hl-del{width:24px;height:24px;background:var(--red2);border:1px solid rgba(255,68,68,.3);border-radius:5px;color:var(--red);font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-
-/* LOGIN */
 #loginPage{align-items:center;justify-content:center;min-height:100vh;width:100%;
   background:radial-gradient(ellipse 80% 60% at 20% 10%,rgba(0,191,165,.06),transparent 60%),
   radial-gradient(ellipse 60% 80% at 80% 90%,rgba(0,212,255,.04),transparent 60%),var(--bg);}
@@ -108,8 +98,6 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 .l-btn:hover{box-shadow:0 0 30px rgba(0,191,165,.2)}
 .l-err{text-align:center;font-size:11px;color:var(--red);margin-top:10px;min-height:16px}
 .l-foot{text-align:center;margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
-
-/* APP */
 #appPage{flex-direction:column;height:100vh;overflow:hidden}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 22px;height:54px;background:var(--sf);border-bottom:1px solid var(--bd);flex-shrink:0;z-index:100;position:relative;}
 .topbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--teal),transparent);opacity:.2;}
@@ -132,8 +120,6 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 .tb-logout:hover{border-color:var(--red);color:var(--red)}
 .app-body{flex:1;overflow:hidden;position:relative}
 .view{display:none;height:100%;overflow-y:auto}.view.active{display:block}
-
-/* KPI */
 .kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:18px}
 .kpi{background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden;transition:all .2s;}
 .kpi:hover{border-color:var(--bd2);transform:translateY(-2px)}.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
@@ -142,8 +128,6 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 .kpi-val{font-family:'Rajdhani',sans-serif;font-size:34px;font-weight:700;line-height:1;margin-bottom:3px}
 .kk0 .kpi-val{color:var(--teal)}.kk1 .kpi-val{color:var(--green)}.kk2 .kpi-val{color:var(--red)}.kk3 .kpi-val{color:var(--gold)}.kk4 .kpi-val{color:var(--purple)}.kk5 .kpi-val{color:var(--orange)}
 .kpi-sub{font-size:10px;color:var(--dim)}
-
-/* SECTION */
 .sec-wrap{padding:18px 22px}
 .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
 .sec-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;letter-spacing:.5px}
@@ -155,56 +139,16 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 .srch-box{display:flex;align-items:center;gap:6px;background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:6px 11px;transition:border-color .2s;}
 .srch-box:focus-within{border-color:var(--teal)}
 .srch-box input{background:none;border:none;outline:none;color:var(--text);font-size:11px;width:160px}
-
-/* DATE FILTER */
-.date-filter-wrap{display:flex;gap:6px;align-items:center;}
-.date-filter-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);text-transform:uppercase;}
-.date-filter-input{padding:5px 8px;background:var(--s3);border:1px solid var(--bd);border-radius:7px;color:var(--text);font-size:10px;outline:none;font-family:'JetBrains Mono',monospace;}
-.date-filter-input:focus{border-color:var(--teal)}
-
-/* TABLE */
 .task-table{width:100%;border-collapse:collapse;min-width:900px}
 .task-table thead th{background:var(--table-head);padding:9px 14px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--dim);border-bottom:1px solid var(--bd);white-space:nowrap;}
 .task-table tbody tr{border-bottom:1px solid rgba(31,45,66,.5);cursor:pointer;transition:background .12s;}
 .task-table tbody tr:hover{background:rgba(0,191,165,.03)}
 .task-table td{padding:10px 14px;vertical-align:middle}
-
-/* PROOF LINK ICON IN TABLE */
-.proof-link-icon{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:24px;
-  height:24px;
-  background:var(--teal2);
-  border:1px solid rgba(0,191,165,.3);
-  border-radius:6px;
-  color:var(--teal);
-  font-size:12px;
-  cursor:pointer;
-  transition:all .2s;
-  text-decoration:none;
-}
-.proof-link-icon:hover{
-  background:var(--teal);
-  color:var(--bg);
-  box-shadow:0 0 12px rgba(0,191,165,.3);
-}
-.proof-link-icon.disabled{
-  background:var(--s3);
-  border-color:var(--bd);
-  color:var(--dim);
-  cursor:not-allowed;
-  opacity:0.5;
-}
-
-/* Section badges */
 .tt-section{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:5px;font-size:9px;font-weight:700;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;}
 .s-ea{background:rgba(0,191,165,.12);color:var(--teal);border:1px solid rgba(0,191,165,.25)}
 .s-pc{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.25)}
 .s-admin{background:rgba(176,96,255,.12);color:var(--purple);border:1px solid rgba(176,96,255,.25)}
 .s-cus{background:rgba(255,140,66,.12);color:var(--orange);border:1px solid rgba(255,140,66,.25)}
-
 .status-pill{padding:3px 10px;border-radius:20px;font-size:9px;font-weight:700;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;display:inline-flex;align-items:center;gap:4px;}
 .sp-done{background:var(--green2);color:var(--green);border:1px solid rgba(0,230,118,.25)}
 .sp-pending{background:var(--s3);color:var(--sub);border:1px solid var(--bd)}
@@ -213,14 +157,11 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 @keyframes pulse-red{0%,100%{box-shadow:none}50%{box-shadow:0 0 8px rgba(255,68,68,.3)}}
 .freq-badge{padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;}
 .fb-d{background:rgba(0,230,118,.08);color:var(--green)}
-.fb-w{background:rgba(0,212,255,.08);color:var(--cyan)}
 .fb-m{background:rgba(0,191,165,.08);color:var(--teal)}.fb-q{background:rgba(176,96,255,.08);color:var(--purple)}.fb-a{background:rgba(255,140,66,.08);color:var(--orange)}
 .tw-wrap{background:var(--s2);border:1px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1)}
 .tw-scroll{overflow-x:auto}
 .add-row-btn{width:100%;padding:10px;background:none;border:none;border-top:1px solid var(--bd);color:var(--dim);font-size:11px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;}
 .add-row-btn:hover{background:rgba(0,191,165,.04);color:var(--teal)}
-
-/* MIS */
 .mis-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 .mis-card{background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:16px;position:relative;overflow:hidden;}
 .mis-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
@@ -246,16 +187,12 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 .sc-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:9px;font-weight:700;color:var(--bg);transition:width .8s ease}
 .sc-nums{display:flex;gap:8px;font-size:10px;min-width:100px;justify-content:flex-end}
 .sc-n{display:flex;align-items:center;gap:3px}
-
-/* PROOF LINK */
 .proof-link-box{background:var(--s3);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;margin-bottom:12px}
 .proof-link-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
 .proof-link-inp{width:100%;background:none;border:none;outline:none;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;}
 .proof-link-view{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--teal2);border:1px solid rgba(0,191,165,.25);border-radius:6px;margin-top:6px}
 .proof-link-view a{color:var(--teal);text-decoration:none;font-size:11px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .proof-link-view a:hover{text-decoration:underline}
-
-/* MODAL */
 .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;align-items:center;justify-content:center;backdrop-filter:blur(6px)}.mo.open{display:flex}
 .md{background:var(--s2);border:1px solid var(--bd);border-radius:14px;width:600px;max-width:96vw;max-height:92vh;overflow-y:auto;animation:mIn .22s ease;box-shadow:0 40px 80px rgba(0,0,0,.4);}
 @keyframes mIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
@@ -282,15 +219,12 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 .notes-box{background:var(--s3);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:12px}
 .notes-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
 .notes-inp{width:100%;background:none;border:none;outline:none;color:var(--text);font-size:12px;resize:none;min-height:60px;font-family:'DM Sans',sans-serif;}
-
-/* SYNC/TOAST */
 .sync-dot{position:fixed;bottom:14px;right:14px;z-index:400;padding:5px 11px;border-radius:20px;font-size:9px;font-weight:600;display:flex;align-items:center;gap:5px;transition:all .25s;font-family:'JetBrains Mono',monospace;}
 .sync-dot.saved{background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.25);color:var(--green)}.sync-dot.saving{background:var(--gold2);border:1px solid rgba(255,184,0,.3);color:var(--gold)}.sync-dot.err{background:var(--red2);border:1px solid rgba(255,68,68,.3);color:var(--red)}
 .sd{width:5px;height:5px;border-radius:50%;background:currentColor;animation:blink .8s ease infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:10px 18px;font-size:11px;z-index:999;opacity:0;transition:all .28s;white-space:nowrap;color:var(--text);box-shadow:0 8px 24px rgba(0,0,0,.4);}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast.s{border-left:3px solid var(--green)}.toast.e{border-left:3px solid var(--red)}.toast.i{border-left:3px solid var(--teal)}
-
 @media(max-width:1100px){.kpi-row{grid-template-columns:repeat(3,1fr)}.mis-grid{grid-template-columns:repeat(2,1fr)}.week-grid{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
@@ -381,7 +315,7 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
           <div style="padding:10px 14px;background:var(--s3);border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1.5px;color:var(--sub);text-transform:uppercase">📋 All Tasks This Month</div>
           <div class="tw-scroll">
             <table class="task-table">
-              <thead><tr><th>Category</th><th>Task</th><th>Due Date</th><th>Frequency</th><th>Assigned</th><th>Status</th><th>Proof</th></tr></thead>
+              <thead><tr><th>Category</th><th>Task</th><th>Due Date</th><th>Frequency</th><th>Assigned</th><th>Status</th></tr></thead>
               <tbody id="dashTaskBody"></tbody>
             </table>
           </div>
@@ -389,7 +323,7 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
       </div>
     </div>
 
-    <!-- TASKS -->
+    <!-- TASKS — ✅ PATCH 4: Date filter inputs added -->
     <div class="view" id="view-tasks">
       <div class="sec-wrap">
         <div class="sec-hdr">
@@ -397,13 +331,9 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
           <div class="sec-filters">
             <div class="srch-box"><span style="color:var(--dim)">🔍</span><input id="taskSrch" placeholder="Search task..."></div>
             <select class="month-sel" id="taskMonthSel"></select>
-            <div class="date-filter-wrap">
-              <span class="date-filter-label">From:</span>
-              <input type="date" class="date-filter-input" id="taskFromDate">
-              <span class="date-filter-label">To:</span>
-              <input type="date" class="date-filter-input" id="taskToDate">
-              <button class="flt-btn" id="clearDateFilter">Clear</button>
-            </div>
+            <input type="date" class="month-sel" id="dateFrom" style="width:120px" title="From Date">
+            <input type="date" class="month-sel" id="dateTo" style="width:120px" title="To Date">
+            <button class="flt-btn" id="clearDateBtn" style="border-color:rgba(255,68,68,.3);color:var(--red)">✕ Date</button>
             <button class="flt-btn active" data-f="All">All</button>
             <button class="flt-btn" data-f="EA">EA</button>
             <button class="flt-btn" data-f="PC">PC</button>
@@ -417,7 +347,7 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
         <div class="tw-wrap">
           <div class="tw-scroll">
             <table class="task-table">
-              <thead><tr><th>#</th><th>Category</th><th>Task</th><th>Frequency</th><th>Due Date</th><th>Assigned To</th><th>Status</th><th>Completed On</th><th>Notes</th><th>Proof</th></tr></thead>
+              <thead><tr><th>#</th><th>Category</th><th>Task</th><th>Frequency</th><th>Due Date</th><th>Assigned To</th><th>Status</th><th>Completed On</th><th>Notes</th></tr></thead>
               <tbody id="taskBody"></tbody>
             </table>
           </div>
@@ -431,16 +361,7 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
       <div class="sec-wrap">
         <div class="sec-hdr">
           <div class="sec-title" style="color:var(--teal)">📈 MIS Report</div>
-          <div class="sec-filters">
-            <select class="month-sel" id="misMonthSel"></select>
-            <div class="date-filter-wrap">
-              <span class="date-filter-label">From:</span>
-              <input type="date" class="date-filter-input" id="misFromDate">
-              <span class="date-filter-label">To:</span>
-              <input type="date" class="date-filter-input" id="misToDate">
-              <button class="flt-btn" id="clearMisDateFilter">Clear</button>
-            </div>
-          </div>
+          <div class="sec-filters"><select class="month-sel" id="misMonthSel"></select></div>
         </div>
         <div class="mis-grid" id="misCards"></div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--sub);text-transform:uppercase;margin-bottom:10px">📅 Weekly Breakdown</div>
@@ -474,8 +395,6 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
       <div class="sp-tab" onclick="switchSpTab('holidays',this)">📅 Holidays</div>
       <div class="sp-tab" onclick="switchSpTab('security',this)">🔐 Security</div>
     </div>
-
-    <!-- TEAM TAB -->
     <div class="sp-tab-content active" id="sptab-team">
       <div class="sp-info-box">Add team members with their Name, Role, and Email. These will appear in the "Assigned To" dropdown.</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1.5fr auto;gap:4px;margin:10px 0 6px;padding:0 2px">
@@ -490,8 +409,6 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
       <input class="sp-input" id="sp-owner-email" placeholder="owner@company.com" type="email">
       <button class="sp-btn" id="saveTeamBtn">💾 Save Team</button>
     </div>
-
-    <!-- EMAIL TAB -->
     <div class="sp-tab-content" id="sptab-email">
       <div class="sp-info-box">
         <strong>Setup steps:</strong><br>
@@ -527,8 +444,6 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
         ⚠ <strong>Note:</strong> Daily reminders send when app is opened at/after set time.
       </div>
     </div>
-
-    <!-- HOLIDAYS TAB -->
     <div class="sp-tab-content" id="sptab-holidays">
       <div class="sp-info-box">
         Tasks will NOT be scheduled on holidays or Sundays. They shift to the previous working day.
@@ -551,8 +466,6 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
       <button class="sp-btn" id="saveHolidaysBtn">💾 Save Holidays</button>
       <button class="sp-btn-secondary" id="clearHolidaysBtn">🗑 Clear All Holidays</button>
     </div>
-
-    <!-- SECURITY TAB -->
     <div class="sp-tab-content" id="sptab-security">
       <div class="sp-label">Owner Password</div>
       <input class="sp-input" id="sp-pw-owner" type="password" placeholder="••••••••">
@@ -612,7 +525,6 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
           <select class="fs" id="at-freq">
             <option value="One-time">One-time</option>
             <option value="Daily">Daily</option>
-            <option value="Weekly">Weekly</option>
             <option value="Monthly" selected>Monthly</option>
             <option value="Quarterly">Quarterly</option>
             <option value="Annual">Annual</option>
@@ -635,9 +547,7 @@ input,select,textarea,button{font-family:'DM Sans',sans-serif}
 
 <div class="sync-dot saved" id="syncDot"><div class="sd"></div><span id="syncTxt">Synced</span></div>
 <div class="toast" id="toast"></div>
-
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-
 <script>
 // ══════════════════════════════════════════════════════════
 // SUPABASE
@@ -655,22 +565,6 @@ function sbFetch(path,method,body){
     if(r.status===204)return null;
     return r.json();
   });
-}
-
-// ══════════════════════════════════════════════════════════
-// ROLE-BASED TASK FILTERING
-// ══════════════════════════════════════════════════════════
-function filterTasksByRole(taskList) {
-  if (currentRole === 'owner') {
-    return taskList;
-  } else if (currentRole === 'ea') {
-    return taskList.filter(function(t) { return t.section === 'EA'; });
-  } else if (currentRole === 'pc') {
-    return taskList.filter(function(t) { return t.section === 'PC'; });
-  } else if (currentRole === 'viewer') {
-    return taskList;
-  }
-  return taskList;
 }
 
 // ══════════════════════════════════════════════════════════
@@ -698,20 +592,12 @@ function loadSettings(){
 function saveSettings(s){try{localStorage.setItem('eapc_settings_v1',JSON.stringify(s));}catch(e){}}
 var SETTINGS=loadSettings();
 
-// ══════════════════════════════════════════════════════════
-// THEME
-// ══════════════════════════════════════════════════════════
 function applyTheme(t){
   document.documentElement.setAttribute('data-theme',t);SETTINGS.theme=t;
-  var isDark=t==='dark';
-  var el;
-  el=document.getElementById('loginThemeLabel');if(el)el.textContent=isDark?'Dark Mode':'Light Mode';
+  var el=document.getElementById('loginThemeLabel');if(el)el.textContent=t==='dark'?'Dark Mode':'Light Mode';
 }
 function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');saveSettings(SETTINGS);}
 
-// ══════════════════════════════════════════════════════════
-// HOLIDAY LOGIC
-// ══════════════════════════════════════════════════════════
 function isHoliday(dateStr){var holidays=SETTINGS.holidays||[];return holidays.some(function(h){return h.date===dateStr;});}
 function isSunday(dateStr){return new Date(dateStr).getDay()===0;}
 function isWorkingDay(dateStr){return!isSunday(dateStr)&&!isHoliday(dateStr);}
@@ -721,9 +607,6 @@ function toWorkingDay(dateStr){
   return d.toISOString().split('T')[0];
 }
 
-// ══════════════════════════════════════════════════════════
-// SETTINGS PANEL
-// ══════════════════════════════════════════════════════════
 function switchSpTab(name,el){
   document.querySelectorAll('.sp-tab').forEach(function(t){t.classList.remove('active');});
   document.querySelectorAll('.sp-tab-content').forEach(function(t){t.classList.remove('active');});
@@ -741,17 +624,13 @@ function populateSettingsInputs(){
   setVal('sp-resend-key',SETTINGS.resendKey);setVal('sp-sender-email',SETTINGS.senderEmail);
   setVal('sp-reminder-time',SETTINGS.reminderTime||'09:00');
   setChk('sp-email-daily',SETTINGS.emailDaily);setChk('sp-email-new',SETTINGS.emailNew);setChk('sp-email-overdue',SETTINGS.emailOverdue);
-  setVal('sp-pw-owner',SETTINGS.passwords.owner);
-  setVal('sp-pw-ea',SETTINGS.passwords.ea);
-  setVal('sp-pw-pc',SETTINGS.passwords.pc);
-  setVal('sp-pw-viewer',SETTINGS.passwords.viewer);
-  applyTheme(SETTINGS.theme);
-  renderTeamInputs();renderHolidayList();
+  setVal('sp-pw-owner',SETTINGS.passwords.owner);setVal('sp-pw-ea',SETTINGS.passwords.ea);
+  setVal('sp-pw-pc',SETTINGS.passwords.pc);setVal('sp-pw-viewer',SETTINGS.passwords.viewer);
+  applyTheme(SETTINGS.theme);renderTeamInputs();renderHolidayList();
 }
 function setVal(id,v){var el=document.getElementById(id);if(el)el.value=v||'';}
 function setChk(id,v){var el=document.getElementById(id);if(el)el.checked=!!v;}
 
-// TEAM
 function renderTeamInputs(){
   var wrap=document.getElementById('teamMembersWrap');if(!wrap)return;
   var members=SETTINGS.teamMembers||[];
@@ -767,8 +646,7 @@ function renderTeamInputs(){
 function addTeamMember(){SETTINGS.teamMembers.push({name:'',position:'',email:''});renderTeamInputs();}
 function removeTeamMember(i){SETTINGS.teamMembers.splice(i,1);renderTeamInputs();}
 function getTeamFromInputs(){
-  var rows=document.querySelectorAll('#teamMembersWrap .tm-row');
-  var members=[];
+  var rows=document.querySelectorAll('#teamMembersWrap .tm-row');var members=[];
   rows.forEach(function(row){
     var name=row.querySelector('[data-field="name"]').value.trim();
     var position=row.querySelector('[data-field="position"]').value.trim();
@@ -777,8 +655,6 @@ function getTeamFromInputs(){
   });
   return members;
 }
-
-// HOLIDAYS
 function renderHolidayList(){
   var wrap=document.getElementById('holidayListWrap');if(!wrap)return;
   var holidays=SETTINGS.holidays||[];
@@ -789,18 +665,14 @@ function renderHolidayList(){
   }).join(''):'<div style="font-size:11px;color:var(--dim);padding:8px">No holidays added yet.</div>';
 }
 function addHolidayManual(){
-  var date=document.getElementById('hl-date-inp').value;
-  var name=document.getElementById('hl-name-inp').value.trim();
+  var date=document.getElementById('hl-date-inp').value;var name=document.getElementById('hl-name-inp').value.trim();
   if(!date||!name){showToast('Date and name required','e');return;}
   if(!SETTINGS.holidays)SETTINGS.holidays=[];
   if(SETTINGS.holidays.some(function(h){return h.date===date;})){showToast('Already exists','e');return;}
-  SETTINGS.holidays.push({date:date,name:name});
-  renderHolidayList();
+  SETTINGS.holidays.push({date:date,name:name});renderHolidayList();
   document.getElementById('hl-date-inp').value='';document.getElementById('hl-name-inp').value='';
 }
 function removeHoliday(i){SETTINGS.holidays.splice(i,1);renderHolidayList();}
-
-// EXCEL / CSV
 function handleHolidayFile(file){
   var reader=new FileReader();
   reader.onload=function(e){
@@ -821,8 +693,7 @@ function handleHolidayFile(file){
       renderHolidayList();showToast('✓ '+added+' holidays imported!','s');
     }catch(err){showToast('Failed: '+err.message,'e');}
   };
-  if(file.name.endsWith('.csv'))reader.readAsBinaryString(file);
-  else reader.readAsArrayBuffer(file);
+  if(file.name.endsWith('.csv'))reader.readAsBinaryString(file);else reader.readAsArrayBuffer(file);
 }
 function parseFlexDate(str){
   if(/^\d{4}-\d{2}-\d{2}$/.test(str))return str;
@@ -834,9 +705,6 @@ function parseFlexDate(str){
   return null;
 }
 
-// ══════════════════════════════════════════════════════════
-// EMAIL (Resend)
-// ══════════════════════════════════════════════════════════
 function getMemberEmail(name){var m=(SETTINGS.teamMembers||[]).find(function(x){return x.name===name;});return m?m.email:'';}
 function sendEmail(to,cc,subject,html){
   var key=SETTINGS.resendKey;if(!key)return Promise.resolve();
@@ -850,14 +718,12 @@ function buildEmailTemplate(headline,intro,rows,footer,accentColor){
   return'<!DOCTYPE html><html><body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,sans-serif"><div style="max-width:560px;margin:32px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08)"><div style="background:'+accentColor+';padding:28px 32px"><div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.8);text-transform:uppercase;margin-bottom:6px">EA &amp; PC TASK FMS</div><div style="font-size:22px;font-weight:700;color:#fff">'+headline+'</div></div><div style="padding:24px 32px"><p style="font-size:14px;color:#444;line-height:1.7;margin:0 0 20px">'+intro+'</p><table style="width:100%;border-collapse:collapse;background:#fafafa;border-radius:8px;overflow:hidden;margin-bottom:20px">'+rowsHtml+'</table><p style="font-size:13px;color:#888;margin:0;padding-top:16px;border-top:1px solid #f0f0f0">'+footer+'</p></div><div style="background:#f9f9f9;padding:16px 32px;border-top:1px solid #eee;font-size:11px;color:#aaa;text-align:center">Automated message from EA &amp; PC Task FMS. Do not reply.</div></div></body></html>';
 }
 function emailNewTaskAssigned(task){
-  if(!SETTINGS.emailNew)return;
-  var to=getMemberEmail(task.assign);if(!to)return;
+  if(!SETTINGS.emailNew)return;var to=getMemberEmail(task.assign);if(!to)return;
   var html=buildEmailTemplate('New Task Assigned','You have been assigned a new task.',[{label:'Task',value:task.name},{label:'Category',value:task.section},{label:'Due Date',value:fmtDate(task.dueDate)},{label:'Assigned To',value:task.assign}],'Please complete this task by the due date.','#00BFA5');
   sendEmail(to,'','New Task: '+task.name,html).then(function(){showToast('📧 Assignment email sent!','i');});
 }
 function emailOverdueAlert(task){
-  if(!SETTINGS.emailOverdue)return;
-  var to=getMemberEmail(task.assign);if(!to)return;
+  if(!SETTINGS.emailOverdue)return;var to=getMemberEmail(task.assign);if(!to)return;
   var days=daysDiff(task.dueDate,today());
   var html=buildEmailTemplate('⚠ Task is Overdue','The following task has missed its due date.',[{label:'Task',value:task.name},{label:'Category',value:task.section},{label:'Due Date',value:fmtDate(task.dueDate)},{label:'Days Overdue',value:days+'d'},{label:'Assigned To',value:task.assign}],'Please complete immediately.','#FF4444');
   sendEmail(to,SETTINGS.ownerEmail,'⚠ Overdue: '+task.name,html).then(function(){showToast('📧 Overdue alert sent!','i');});
@@ -876,8 +742,7 @@ var overdueEmailsSent=[];
 function checkAndSendOverdueEmails(tasks){
   if(!SETTINGS.emailOverdue||!SETTINGS.resendKey)return;
   var curYM=getYM();
-  var filteredTasks = filterTasksByRole(tasks);
-  filteredTasks.filter(function(t){return t.monthKey===curYM&&calcStatus(t)==='Overdue'&&!t.actualDate;}).forEach(function(t){
+  tasks.filter(function(t){return t.monthKey===curYM&&calcStatus(t)==='Overdue'&&!t.actualDate;}).forEach(function(t){
     if(overdueEmailsSent.indexOf(t.id)<0){overdueEmailsSent.push(t.id);emailOverdueAlert(t);}
   });
 }
@@ -887,24 +752,17 @@ function checkDailyReminder(tasks){
   if(SETTINGS.lastReminderDate===todayStr)return;
   var parts=(SETTINGS.reminderTime||'09:00').split(':');
   if(now.getHours()>parseInt(parts[0])||(now.getHours()===parseInt(parts[0])&&now.getMinutes()>=parseInt(parts[1]||0))){
-    var filteredTasks = filterTasksByRole(tasks);
-    var due=filteredTasks.filter(function(t){return t.dueDate===todayStr&&!t.actualDate;});
+    var due=tasks.filter(function(t){return t.dueDate===todayStr&&!t.actualDate;});
     if(due.length){emailDailyReminder(due);SETTINGS.lastReminderDate=todayStr;saveSettings(SETTINGS);}
   }
 }
 
-// ══════════════════════════════════════════════════════════
-// CONFIG
-// ══════════════════════════════════════════════════════════
 var ROLE_LABELS={owner:'👑 Owner',ea:'📋 Executive Assistant',pc:'🔄 Process Coordinator',viewer:'👁️ Viewer'};
 var READ_ONLY=['viewer'];
 var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 var currentRole=null,viewingTaskId=null,taskFilt='All';
 var tasks=[];
 
-// ══════════════════════════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════════════════════════
 function today(){return new Date().toISOString().split('T')[0];}
 function fmtDate(d){if(!d)return'—';var x=new Date(d);return x.getDate()+' '+MON[x.getMonth()]+' '+String(x.getFullYear()).slice(2);}
 function escH(t){if(!t)return'';return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -913,7 +771,6 @@ function getYM(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()
 function ymLabel(ym){if(!ym)return'';var p=ym.split('-');return MON[parseInt(p[1])-1]+' '+p[0];}
 function daysDiff(a,b){return Math.round((new Date(b)-new Date(a))/86400000);}
 function getWeekNum(dateStr){var d=new Date(dateStr);return Math.ceil(d.getDate()/7);}
-
 function getMonthOptions(){
   var now=new Date();var opts=[];
   for(var i=-5;i<=12;i++){var d=new Date(now.getFullYear(),now.getMonth()+i,1);var ym=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');opts.push({ym:ym,label:MON[d.getMonth()]+' '+d.getFullYear()});}
@@ -922,8 +779,7 @@ function getMonthOptions(){
 function populateMonthSelects(){
   var opts=getMonthOptions();var cur=getYM();
   var html=opts.map(function(o){return'<option value="'+o.ym+'"'+(o.ym===cur?' selected':'')+'>'+o.label+'</option>';}).join('');
-  document.getElementById('taskMonthSel').innerHTML=html;
-  document.getElementById('misMonthSel').innerHTML=html;
+  document.getElementById('taskMonthSel').innerHTML=html;document.getElementById('misMonthSel').innerHTML=html;
 }
 function populateAssignDropdowns(){
   var members=SETTINGS.teamMembers||[];
@@ -931,22 +787,6 @@ function populateAssignDropdowns(){
   ['taskAssign','at-assign'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=opts;});
 }
 
-// ══════════════════════════════════════════════════════════
-// PROOF LINK HELPERS
-// ══════════════════════════════════════════════════════════
-function renderProofIcon(task){
-  if(!task.proofLink)return'<span style="color:var(--dim);font-size:10px">—</span>';
-  
-  if(currentRole === 'owner') {
-    return'<a href="'+escH(task.proofLink)+'" target="_blank" rel="noopener" class="proof-link-icon" title="Open proof link" onclick="event.stopPropagation()">🔗</a>';
-  } else {
-    return'<span class="proof-link-icon disabled" title="Owner can view">🔒</span>';
-  }
-}
-
-// ══════════════════════════════════════════════════════════
-// SUPABASE DATA
-// ══════════════════════════════════════════════════════════
 function setSS(s,t){var d=document.getElementById('syncDot'),tx=document.getElementById('syncTxt');d.className='sync-dot '+s;tx.textContent=t;}
 function loadData(){
   setSS('saving','Loading...');
@@ -955,38 +795,11 @@ function loadData(){
     .catch(function(e){setSS('err','Load failed');console.error(e);showToast('Load failed — create table eapc_tasks in Supabase','e');});
 }
 function mapRow(r){
-  return{
-    id:r.id,
-    section:r.section||'',
-    name:r.name||'',
-    freq:r.freq||'Monthly',
-    dueDate:r.due_date||'',
-    actualDate:r.actual_date||'',
-    status:r.status||'Pending',
-    assign:r.assigned_to||'',
-    notes:r.notes||'',
-    monthKey:r.month_key||'',
-    isCustom:r.is_custom||false,
-    proofLink:r.proof_link||''
-  };
+  return{id:r.id,section:r.section||'',name:r.name||'',freq:r.freq||'Monthly',dueDate:r.due_date||'',actualDate:r.actual_date||'',status:r.status||'Pending',assign:r.assigned_to||'',notes:r.notes||'',monthKey:r.month_key||'',isCustom:r.is_custom||false,proofLink:r.proof_link||''};
 }
 function saveTask(task,cb){
   setSS('saving','Saving...');
-  var row={
-    id:task.id,
-    section:task.section,
-    name:task.name,
-    freq:task.freq,
-    due_date:task.dueDate,
-    actual_date:task.actualDate||null,
-    status:task.status,
-    assigned_to:task.assign||'',
-    notes:task.notes||'',
-    month_key:task.monthKey,
-    is_custom:task.isCustom||false,
-    proof_link:task.proofLink||'',
-    updated_at:new Date().toISOString()
-  };
+  var row={id:task.id,section:task.section,name:task.name,freq:task.freq,due_date:task.dueDate,actual_date:task.actualDate||null,status:task.status,assigned_to:task.assign||'',notes:task.notes||'',month_key:task.monthKey,is_custom:task.isCustom||false,proof_link:task.proofLink||'',updated_at:new Date().toISOString()};
   sbFetch('/'+TABLE+'?on_conflict=id','POST',row)
     .then(function(){setSS('saved','✓ Saved');if(cb)cb();})
     .catch(function(){
@@ -1000,21 +813,20 @@ function deleteTask_db(id,cb){
     .then(function(){setSS('saved','✓ Saved');if(cb)cb();})
     .catch(function(){setSS('err','Error');showToast('Delete failed','e');});
 }
-
-// ══════════════════════════════════════════════════════════
-// STATUS
-// ══════════════════════════════════════════════════════════
 function calcStatus(task){
-  if(task.actualDate)return'Done';
-  if(task.dueDate<today())return'Overdue';
-  if(task.dueDate===today())return'Due Today';
-  return'Pending';
+  if(task.actualDate)return'Done';if(task.dueDate<today())return'Overdue';if(task.dueDate===today())return'Due Today';return'Pending';
 }
-function getTasksForMonth(ym){return filterTasksByRole(tasks.filter(function(t){return t.monthKey===ym;}));}
 
-// ══════════════════════════════════════════════════════════
-// BUILD ALL
-// ══════════════════════════════════════════════════════════
+// ✅ PATCH 1: Role-based getTasksForMonth — EA sirf EA+Admin+Custom, PC sirf PC+Admin+Custom
+function getTasksForMonth(ym){
+  return tasks.filter(function(t){
+    if(t.monthKey!==ym) return false;
+    if(currentRole==='ea') return t.section==='EA'||t.section==='Admin'||t.section==='Custom';
+    if(currentRole==='pc') return t.section==='PC'||t.section==='Admin'||t.section==='Custom';
+    return true;
+  });
+}
+
 function buildAll(){
   var curYM=getYM();
   var selTaskYM=document.getElementById('taskMonthSel')?document.getElementById('taskMonthSel').value||curYM:curYM;
@@ -1024,15 +836,9 @@ function buildAll(){
   var curTasks=getTasksForMonth(curYM);
   var overdue=curTasks.filter(function(t){return calcStatus(t)==='Overdue';});
   document.getElementById('overduePill').textContent='⚠ '+overdue.length+' Overdue';
-  populateAssignDropdowns();
-  buildDash(curYM,curTasks);
-  buildTasksView(selTaskYM);
-  buildMIS(selMisYM);
+  populateAssignDropdowns();buildDash(curYM,curTasks);buildTasksView(selTaskYM);buildMIS(selMisYM);
 }
 
-// ══════════════════════════════════════════════════════════
-// DASHBOARD
-// ══════════════════════════════════════════════════════════
 function buildDash(ym,curTasks){
   var total=curTasks.length,done=curTasks.filter(function(t){return t.actualDate;}).length;
   var overdue=curTasks.filter(function(t){return calcStatus(t)==='Overdue';}).length;
@@ -1045,7 +851,6 @@ function buildDash(ym,curTasks){
   document.getElementById('dk2s').textContent=overdue>0?'Need action!':'All clear ✓';
   document.getElementById('dk2s').style.color=overdue>0?'var(--red)':'var(--green)';
   document.getElementById('dashMonthLabel').textContent=ymLabel(ym);
-
   var sections=['EA','PC','Admin','Custom'];
   var sColors={'EA':'var(--teal)','PC':'var(--cyan)','Admin':'var(--purple)','Custom':'var(--orange)'};
   document.getElementById('sectionChart').innerHTML=sections.map(function(sec){
@@ -1055,83 +860,56 @@ function buildDash(ym,curTasks){
     var sp=st.length-sd-so;var pct2=st.length>0?Math.round(sd/st.length*100):0;
     return'<div class="sc-row"><div class="sc-lbl">'+sec+'</div><div class="sc-bar"><div class="sc-fill" style="width:'+Math.max(pct2,sd>0?5:0)+'%;background:'+sColors[sec]+'">'+( pct2>15?pct2+'%':'')+'</div></div><div class="sc-nums"><div class="sc-n" style="color:var(--green)">✓ '+sd+'</div><div class="sc-n" style="color:var(--red)">⚠ '+so+'</div><div class="sc-n" style="color:var(--dim)">○ '+sp+'</div></div></div>';
   }).join('');
-
   var odl=curTasks.filter(function(t){return calcStatus(t)==='Overdue';}).sort(function(a,b){return a.dueDate<b.dueDate?-1:1;});
   document.getElementById('overdueList').innerHTML=odl.length?odl.map(function(t){
     var dd=daysDiff(t.dueDate,today());
-    return'<div onclick="openTask(\''+t.id+'\')" style="display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:8px;background:rgba(255,68,68,.06);border:1px solid rgba(255,68,68,.15);margin-bottom:6px;cursor:pointer"><div style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0"></div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</div><div style="font-size:9px;color:var(--dim)">'+t.section+' · Due '+fmtDate(t.dueDate)+'</div></div><div style="font-size:10px;font-weight:700;color:var(--red);flex-shrink:0">'+dd+'d late</div></div>';
+    return'<div onclick="openTask(''+t.id+'')" style="display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:8px;background:rgba(255,68,68,.06);border:1px solid rgba(255,68,68,.15);margin-bottom:6px;cursor:pointer"><div style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0"></div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</div><div style="font-size:9px;color:var(--dim)">'+t.section+' · Due '+fmtDate(t.dueDate)+'</div></div><div style="font-size:10px;font-weight:700;color:var(--red);flex-shrink:0">'+dd+'d late</div></div>';
   }).join(''):'<div style="text-align:center;padding:20px;color:var(--dim);font-size:11px">🎉 No overdue!</div>';
-
   var now=new Date();var weekEnd=new Date(now);weekEnd.setDate(now.getDate()+7);
   var dwl=curTasks.filter(function(t){if(t.actualDate)return false;var d=new Date(t.dueDate);return d>=now&&d<=weekEnd;}).sort(function(a,b){return a.dueDate<b.dueDate?-1:1;});
   document.getElementById('dueSoonList').innerHTML=dwl.length?dwl.map(function(t){
     var isToday=t.dueDate===today();
-    return'<div onclick="openTask(\''+t.id+'\')" style="display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:8px;background:rgba(255,184,0,.06);border:1px solid rgba(255,184,0,.15);margin-bottom:6px;cursor:pointer"><div style="width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0"></div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</div><div style="font-size:9px;color:var(--dim)">'+t.section+' · '+fmtDate(t.dueDate)+'</div></div><div style="font-size:10px;font-weight:700;color:'+(isToday?'var(--red)':'var(--gold)')+';flex-shrink:0">'+(isToday?'TODAY':fmtDate(t.dueDate))+'</div></div>';
+    return'<div onclick="openTask(''+t.id+'')" style="display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:8px;background:rgba(255,184,0,.06);border:1px solid rgba(255,184,0,.15);margin-bottom:6px;cursor:pointer"><div style="width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0"></div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</div><div style="font-size:9px;color:var(--dim)">'+t.section+' · '+fmtDate(t.dueDate)+'</div></div><div style="font-size:10px;font-weight:700;color:'+(isToday?'var(--red)':'var(--gold)')+';flex-shrink:0">'+(isToday?'TODAY':fmtDate(t.dueDate))+'</div></div>';
   }).join(''):'<div style="text-align:center;padding:20px;color:var(--dim);font-size:11px">✅ Nothing due!</div>';
-
   document.getElementById('dashTaskBody').innerHTML=curTasks.map(function(t){
     var st=calcStatus(t);var spc={Done:'sp-done',Overdue:'sp-overdue',Pending:'sp-pending','Due Today':'sp-today'}[st]||'sp-pending';
     var sc={EA:'s-ea',PC:'s-pc',Admin:'s-admin',Custom:'s-cus'}[t.section]||'s-cus';
-    var freqBadge='fb-m';
-    if(t.freq==='Daily')freqBadge='fb-d';
-    else if(t.freq==='Weekly')freqBadge='fb-w';
-    else if(t.freq==='Monthly')freqBadge='fb-m';
-    else if(t.freq==='Quarterly')freqBadge='fb-q';
-    else if(t.freq==='Annual')freqBadge='fb-a';
-    return'<tr onclick="openTask(\''+t.id+'\')"><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--sub)">'+fmtDate(t.dueDate)+'</td><td><span class="freq-badge '+freqBadge+'">'+t.freq+'</span></td><td style="font-size:10px;color:var(--dim)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td><td>'+renderProofIcon(t)+'</td></tr>';
+    return'<tr onclick="openTask(''+t.id+'')"><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--sub)">'+fmtDate(t.dueDate)+'</td><td><span class="freq-badge '+(t.freq==='Daily'?'fb-d':t.freq==='Monthly'?'fb-m':t.freq==='Quarterly'?'fb-q':'fb-a')+'">'+t.freq+'</span></td><td style="font-size:10px;color:var(--dim)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td></tr>';
   }).join('');
 }
 
-// ══════════════════════════════════════════════════════════
-// TASKS VIEW
-// ══════════════════════════════════════════════════════════
+// ✅ PATCH 3: buildTasksView — Date range filter added
 function buildTasksView(ym){
   var q=document.getElementById('taskSrch')?document.getElementById('taskSrch').value.toLowerCase():'';
-  var fromDate=document.getElementById('taskFromDate')?document.getElementById('taskFromDate').value:'';
-  var toDate=document.getElementById('taskToDate')?document.getElementById('taskToDate').value:'';
-  
-  var data=getTasksForMonth(ym).filter(function(t){
+  var fromDate=document.getElementById('dateFrom')?document.getElementById('dateFrom').value:'';
+  var toDate=document.getElementById('dateTo')?document.getElementById('dateTo').value:'';
+  // ✅ FIX: Date filter active hai to ALL tasks search karo (cross-month)
+  var taskPool = (fromDate || toDate) ? filterTasksByRole(tasks) : getTasksForMonth(ym);
+  var data=taskPool.filter(function(t){
     var st=calcStatus(t);
     if(taskFilt==='EA')return t.section==='EA';if(taskFilt==='PC')return t.section==='PC';
     if(taskFilt==='Admin')return t.section==='Admin';if(taskFilt==='Custom')return t.section==='Custom';
     if(taskFilt==='Overdue')return st==='Overdue';if(taskFilt==='Pending')return st==='Pending'||st==='Due Today';
     if(taskFilt==='Done')return!!t.actualDate;return true;
   }).filter(function(t){
-    if(!q)return true;
-    return(t.name+t.section+t.assign).toLowerCase().indexOf(q)>-1;
+    if(!q)return true;return(t.name+t.section+t.assign).toLowerCase().indexOf(q)>-1;
   }).filter(function(t){
-    if(fromDate && t.dueDate < fromDate) return false;
-    if(toDate && t.dueDate > toDate) return false;
+    if(fromDate&&t.dueDate<fromDate)return false;
+    if(toDate&&t.dueDate>toDate)return false;
     return true;
   });
-
   document.getElementById('taskBody').innerHTML=data.length?data.map(function(t,i){
     var st=calcStatus(t);var spc={Done:'sp-done',Overdue:'sp-overdue',Pending:'sp-pending','Due Today':'sp-today'}[st]||'sp-pending';
     var sc={EA:'s-ea',PC:'s-pc',Admin:'s-admin',Custom:'s-cus'}[t.section]||'s-cus';
     var isHol=isHoliday(t.dueDate);
-    var freqBadge='fb-m';
-    if(t.freq==='Daily')freqBadge='fb-d';
-    else if(t.freq==='Weekly')freqBadge='fb-w';
-    else if(t.freq==='Monthly')freqBadge='fb-m';
-    else if(t.freq==='Quarterly')freqBadge='fb-q';
-    else if(t.freq==='Annual')freqBadge='fb-a';
-    return'<tr onclick="openTask(\''+t.id+'\')"><td style="font-size:10px;color:var(--dim);font-family:JetBrains Mono,monospace">'+(i+1)+'</td><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td><span class="freq-badge '+freqBadge+'">'+t.freq+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:'+(st==='Overdue'?'var(--red)':st==='Due Today'?'var(--gold)':'var(--sub)')+'">'+fmtDate(t.dueDate)+(isHol?' 🏖':'')+'</td><td style="font-size:10px;color:var(--sub)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--green)">'+fmtDate(t.actualDate)+'</td><td style="font-size:10px;color:var(--dim);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.notes||'—')+'</td><td>'+renderProofIcon(t)+'</td></tr>';
-  }).join(''):'<tr><td colspan="10" style="text-align:center;padding:30px;color:var(--dim)">No tasks found</td></tr>';
+    return'<tr onclick="openTask(''+t.id+'')"><td style="font-size:10px;color:var(--dim);font-family:JetBrains Mono,monospace">'+(i+1)+'</td><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td><span class="freq-badge '+(t.freq==='Daily'?'fb-d':t.freq==='Monthly'?'fb-m':t.freq==='Quarterly'?'fb-q':'fb-a')+'">'+t.freq+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:'+(st==='Overdue'?'var(--red)':st==='Due Today'?'var(--gold)':'var(--sub)')+'">'+fmtDate(t.dueDate)+(isHol?' 🏖':'')+'</td><td style="font-size:10px;color:var(--sub)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--green)">'+fmtDate(t.actualDate)+'</td><td style="font-size:10px;color:var(--dim);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.notes||'—')+'</td></tr>';
+  }).join(''):'<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--dim)">No tasks found</td></tr>';
 }
 
-// ══════════════════════════════════════════════════════════
-// MIS
-// ══════════════════════════════════════════════════════════
 function buildMIS(ym){
-  var fromDate=document.getElementById('misFromDate')?document.getElementById('misFromDate').value:'';
-  var toDate=document.getElementById('misToDate')?document.getElementById('misToDate').value:'';
-  
-  var mt=getTasksForMonth(ym).filter(function(t){
-    if(fromDate && t.dueDate < fromDate) return false;
-    if(toDate && t.dueDate > toDate) return false;
-    return true;
-  });
-  
+  var misFrom=document.getElementById('misFromDate')?document.getElementById('misFromDate').value:'';
+  var misTo=document.getElementById('misToDate')?document.getElementById('misToDate').value:'';
+  var mt=((misFrom||misTo)?filterTasksByRole(tasks):getTasksForMonth(ym)).filter(function(t){if(misFrom&&t.dueDate<misFrom)return false;if(misTo&&t.dueDate>misTo)return false;return true;});
   var total=mt.length,done=mt.filter(function(t){return t.actualDate;}).length;
   var overdue=mt.filter(function(t){return calcStatus(t)==='Overdue';}).length;
   var delayed=mt.filter(function(t){return t.actualDate&&t.dueDate&&t.actualDate>t.dueDate;}).length;
@@ -1141,7 +919,6 @@ function buildMIS(ym){
     {c:'mc-r',l:'Overdue',v:overdue,s:'Missed deadline'},
     {c:'mc-o',l:'Delayed (Done Late)',v:delayed,s:'Done after due date'},
   ].map(function(c){return'<div class="mis-card '+c.c+'"><div class="mis-lbl">'+c.l+'</div><div class="mis-val">'+c.v+'</div><div class="mis-sub">'+c.s+'</div></div>';}).join('');
-
   var weeks={1:[],2:[],3:[],4:[],5:[]};
   mt.forEach(function(t){var w=getWeekNum(t.dueDate);if(weeks[w])weeks[w].push(t);});
   var wkLabels={1:'Week 1 (1-7)',2:'Week 2 (8-14)',3:'Week 3 (15-21)',4:'Week 4 (22-28)',5:'Week 5 (29+)'};
@@ -1152,7 +929,6 @@ function buildMIS(ym){
     var dPct=wt.length>0?Math.round(wd/wt.length*100):0;var oPct=wt.length>0?Math.round(wo/wt.length*100):0;
     return'<div class="week-card"><div class="wk-label">'+wkLabels[w]+'</div><div style="font-family:Rajdhani,sans-serif;font-size:22px;font-weight:700;color:var(--teal);margin-bottom:8px">'+wt.length+' <span style="font-size:12px;color:var(--dim)">tasks</span></div><div class="wk-bar-wrap"><div class="wk-bar-row"><div class="wk-bar-lbl" style="color:var(--green)">Done</div><div class="wk-bar"><div class="wk-fill" style="width:'+dPct+'%;background:var(--green)"></div></div><div class="wk-num" style="color:var(--green)">'+wd+'</div></div><div class="wk-bar-row"><div class="wk-bar-lbl" style="color:var(--red)">Overdue</div><div class="wk-bar"><div class="wk-fill" style="width:'+oPct+'%;background:var(--red)"></div></div><div class="wk-num" style="color:var(--red)">'+wo+'</div></div><div class="wk-bar-row"><div class="wk-bar-lbl" style="color:var(--dim)">Pending</div><div class="wk-bar"><div class="wk-fill" style="width:'+(100-dPct-oPct)+'%;background:var(--dim)"></div></div><div class="wk-num" style="color:var(--dim)">'+wp+'</div></div></div></div>';
   }).join('');
-
   var secs=['EA','PC','Admin','Custom'];
   var sColors2={'EA':'var(--teal)','PC':'var(--cyan)','Admin':'var(--purple)','Custom':'var(--orange)'};
   document.getElementById('misSectionChart').innerHTML='<div class="sc-hdr">'+ymLabel(ym)+' — Category Performance</div>'
@@ -1163,19 +939,16 @@ function buildMIS(ym){
       var sp=st.length-sd-so;var pct2=st.length>0?Math.round(sd/st.length*100):0;
       return'<div class="sc-row"><div class="sc-lbl">'+sec+' ('+st.length+')</div><div class="sc-bar"><div class="sc-fill" style="width:'+Math.max(pct2,sd>0?5:0)+'%;background:'+sColors2[sec]+'">'+( pct2>15?pct2+'%':'')+'</div></div><div class="sc-nums"><div class="sc-n" style="color:var(--green)">✓ '+sd+'</div><div class="sc-n" style="color:var(--red)">⚠ '+so+'</div><div class="sc-n" style="color:var(--dim)">○ '+sp+'</div></div></div>';
     }).join('');
-
   document.getElementById('misBody').innerHTML=mt.length?mt.map(function(t){
     var st=calcStatus(t);var spc={Done:'sp-done',Overdue:'sp-overdue',Pending:'sp-pending','Due Today':'sp-today'}[st]||'sp-pending';
     var delay=t.actualDate&&t.dueDate?daysDiff(t.dueDate,t.actualDate):null;
     var delayTxt=delay===null?'—':delay<=0?'<span style="color:var(--green)">On time</span>':'<span style="color:var(--red)">+'+delay+'d</span>';
     var sc={EA:'s-ea',PC:'s-pc',Admin:'s-admin',Custom:'s-cus'}[t.section]||'s-cus';
-    return'<tr onclick="openTask(\''+t.id+'\')"><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--sub)">'+fmtDate(t.dueDate)+'</td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--green)">'+fmtDate(t.actualDate)+'</td><td style="font-size:11px">'+delayTxt+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':'○ ')+st+'</span></td><td style="font-size:10px;color:var(--dim)">'+escH(t.assign||'—')+'</td></tr>';
+    return'<tr onclick="openTask(''+t.id+'')"><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--sub)">'+fmtDate(t.dueDate)+'</td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--green)">'+fmtDate(t.actualDate)+'</td><td style="font-size:11px">'+delayTxt+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':'○ ')+st+'</span></td><td style="font-size:10px;color:var(--dim)">'+escH(t.assign||'—')+'</td></tr>';
   }).join(''):'<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--dim)">No tasks for this month</td></tr>';
 }
 
-// ══════════════════════════════════════════════════════════
-// TASK MODAL
-// ══════════════════════════════════════════════════════════
+// ✅ PATCH 2: openTask — Owner koi bhi task delete kar sakta hai + Proof link hamesha dikhta hai
 function openTask(id){
   viewingTaskId=id;var t=tasks.find(function(x){return x.id===id;});if(!t)return;
   var st=calcStatus(t);
@@ -1183,51 +956,38 @@ function openTask(id){
   var sc={EA:'s-ea',PC:'s-pc',Admin:'s-admin',Custom:'s-cus'}[t.section]||'s-cus';
   document.getElementById('taskMoTitle').innerHTML=escH(t.section)+' <span>Task Detail</span>';
   var assigneeEmail=getMemberEmail(t.assign);
-  var freqBadge='fb-m';
-  if(t.freq==='Daily')freqBadge='fb-d';
-  else if(t.freq==='Weekly')freqBadge='fb-w';
-  else if(t.freq==='Monthly')freqBadge='fb-m';
-  else if(t.freq==='Quarterly')freqBadge='fb-q';
-  else if(t.freq==='Annual')freqBadge='fb-a';
   document.getElementById('taskDetailGrid').innerHTML=[
     {l:'Category',v:'<span class="tt-section '+sc+'">'+t.section+'</span>'},
     {l:'Status',v:'<span class="status-pill '+spc+'">'+st+'</span>'},
     {l:'Due Date',v:fmtDate(t.dueDate)+(isHoliday(t.dueDate)?' 🏖':'')+(isSunday(t.dueDate)?' 🚫':'')},
-    {l:'Frequency',v:'<span class="freq-badge '+freqBadge+'">'+t.freq+'</span>'},
+    {l:'Frequency',v:'<span class="freq-badge '+(t.freq==='Daily'?'fb-d':t.freq==='Monthly'?'fb-m':t.freq==='Quarterly'?'fb-q':'fb-a')+'">'+t.freq+'</span>'},
     {l:'Month',v:ymLabel(t.monthKey)},
     {l:'Task',v:'<div style="font-size:12px;font-weight:600">'+escH(t.name)+'</div>'},
     {l:'Assignee Email',v:'<span style="font-size:10px;color:var(--teal)">'+escH(assigneeEmail||'—')+'</span>'},
     {l:'Assigned To',v:escH(t.assign||'—')},
   ].map(function(item){return'<div class="tdg-item"><div class="tdg-lbl">'+item.l+'</div><div class="tdg-val">'+item.v+'</div></div>';}).join('');
-  
   document.getElementById('taskNotes').value=t.notes||'';
   document.getElementById('taskProofLink').value=t.proofLink||'';
   document.getElementById('taskActualDate').value=t.actualDate||today();
-  
   var proofView=document.getElementById('proofLinkView');
-  if(t.proofLink && t.actualDate){
-    if(currentRole === 'owner') {
-      proofView.innerHTML='<div class="proof-link-view"><span style="font-size:10px;color:var(--dim)">🔗</span><a href="'+escH(t.proofLink)+'" target="_blank" rel="noopener noreferrer">'+escH(t.proofLink)+'</a></div>';
-      proofView.style.display='block';
-    } else {
-      proofView.innerHTML='<div style="font-size:11px;color:var(--dim);padding:8px">Proof link available (Owner can view)</div>';
-      proofView.style.display='block';
-    }
-  }else{
-    proofView.style.display='none';
-  }
-  
+  if(t.proofLink){
+    proofView.innerHTML='<div class="proof-link-view"><span style="font-size:10px;color:var(--dim)">🔗</span><a href="'+escH(t.proofLink)+'" target="_blank" rel="noopener noreferrer">'+escH(t.proofLink)+'</a></div>';
+    proofView.style.display='block';
+  }else{proofView.style.display='none';}
   populateAssignDropdowns();document.getElementById('taskAssign').value=t.assign||'';
   var isRO=READ_ONLY.includes(currentRole);
+  var isOwner=(currentRole==='owner');
   document.getElementById('taskNotes').disabled=isRO;
   document.getElementById('taskProofLink').disabled=isRO;
   document.getElementById('taskActualDate').disabled=isRO;
   document.getElementById('taskAssign').disabled=isRO;
   document.getElementById('markDoneBtn').style.display=isRO?'none':'';
   document.getElementById('markPendingBtn').style.display=isRO?'none':'';
-  document.getElementById('deleteTaskBtn').style.display=(isRO||!t.isCustom)?'none':'';
+  // ✅ Owner = har task delete kar sakta hai; baaki = sirf custom
+  document.getElementById('deleteTaskBtn').style.display=isOwner?'':(isRO||!t.isCustom)?'none':'';
   openMo('taskMo');
 }
+
 function saveTaskFromModal(status){
   var t=tasks.find(function(x){return x.id===viewingTaskId;});if(!t)return;
   t.notes=document.getElementById('taskNotes').value;
@@ -1239,210 +999,86 @@ function saveTaskFromModal(status){
   saveTask(t,function(){buildAll();showToast(status==='Done'?'✓ Task marked Done!':'Task marked Pending','s');closeMo('taskMo');});
 }
 function deleteTaskFromModal(){
-  if(!confirm('Delete this custom task?'))return;
+  if(!confirm('Delete this task?'))return;
   deleteTask_db(viewingTaskId,function(){tasks=tasks.filter(function(t){return t.id!==viewingTaskId;});buildAll();closeMo('taskMo');showToast('Task deleted','e');});
 }
 
-// ══════════════════════════════════════════════════════════
-// AUTO-RECURRING TASKS - UPDATED: GENERATE FROM SELECTED DATE (NOT TODAY)
-// ══════════════════════════════════════════════════════════
 function generateRecurringTasks(baseTask){
-  var freq=baseTask.freq;
-  var baseDue=new Date(baseTask.dueDate);
-  var newTasks=[];
-  
+  var freq=baseTask.freq;var baseDue=new Date(baseTask.dueDate);var newTasks=[];
   if(freq==='Daily'){
-    // Generate daily tasks for 12 MONTHS from selected date (NOT from today)
-    var currentDate = new Date(baseDue);
-    var endDate = new Date(baseDue);
-    endDate.setMonth(endDate.getMonth() + 12);
-    
-    while(currentDate <= endDate) {
-      var dateStr = currentDate.toISOString().split('T')[0];
-      
-      if(isWorkingDay(dateStr)) {
-        var ym = dateStr.substring(0,7);
-        newTasks.push({
-          id:genId(),section:baseTask.section,name:baseTask.name,freq:'Daily',
-          dueDate:dateStr,actualDate:'',status:'Pending',assign:baseTask.assign,
-          notes:baseTask.notes,monthKey:ym,isCustom:true,proofLink:''
-        });
-      }
-      
-      currentDate.setDate(currentDate.getDate() + 1);
+    var ym=baseTask.monthKey;var parts=ym.split('-');var year=parseInt(parts[0]);var month=parseInt(parts[1]);
+    var daysInMonth=new Date(year,month,0).getDate();
+    for(var day=1;day<=daysInMonth;day++){
+      var dateStr=year+'-'+String(month).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+      if(!isWorkingDay(dateStr))continue;
+      newTasks.push({id:genId(),section:baseTask.section,name:baseTask.name,freq:'Daily',dueDate:dateStr,actualDate:'',status:'Pending',assign:baseTask.assign,notes:baseTask.notes,monthKey:ym,isCustom:true,proofLink:''});
     }
-  }
-  else if(freq==='Weekly'){
-    var dayOfMonth=baseDue.getDate();
-    var startMonth=baseDue.getMonth();
-    var startYear=baseDue.getFullYear();
-    for(var i=0;i<52;i++){
-      var futureDate=new Date(startYear,startMonth,dayOfMonth);
-      futureDate.setDate(futureDate.getDate()+(i*7));
-      
-      var dueDateStr=futureDate.toISOString().split('T')[0];
-      dueDateStr=toWorkingDay(dueDateStr);
-      var ym=dueDateStr.substring(0,7);
-      
-      newTasks.push({
-        id:genId(),section:baseTask.section,name:baseTask.name,freq:'Weekly',
-        dueDate:dueDateStr,actualDate:'',status:'Pending',assign:baseTask.assign,
-        notes:baseTask.notes,monthKey:ym,isCustom:true,proofLink:''
-      });
-    }
-  }
-  else if(freq==='Monthly'){
+  }else if(freq==='Monthly'){
     var dayOfMonth=baseDue.getDate();
     for(var i=0;i<12;i++){
       var futureDate=new Date(baseDue.getFullYear(),baseDue.getMonth()+i,dayOfMonth);
       var maxDay=new Date(futureDate.getFullYear(),futureDate.getMonth()+1,0).getDate();
       if(dayOfMonth>maxDay)futureDate.setDate(maxDay);
-      
-      var dueDateStr=futureDate.toISOString().split('T')[0];
-      dueDateStr=toWorkingDay(dueDateStr);
-      var ym=dueDateStr.substring(0,7);
-      
-      newTasks.push({
-        id:genId(),section:baseTask.section,name:baseTask.name,freq:'Monthly',
-        dueDate:dueDateStr,actualDate:'',status:'Pending',assign:baseTask.assign,
-        notes:baseTask.notes,monthKey:ym,isCustom:true,proofLink:''
-      });
+      var dueDateStr=toWorkingDay(futureDate.toISOString().split('T')[0]);
+      newTasks.push({id:genId(),section:baseTask.section,name:baseTask.name,freq:'Monthly',dueDate:dueDateStr,actualDate:'',status:'Pending',assign:baseTask.assign,notes:baseTask.notes,monthKey:dueDateStr.substring(0,7),isCustom:true,proofLink:''});
     }
-  }
-  else if(freq==='Quarterly'){
+  }else if(freq==='Quarterly'){
     var dayOfMonth=baseDue.getDate();
     for(var i=0;i<4;i++){
       var futureDate=new Date(baseDue.getFullYear(),baseDue.getMonth()+(i*3),dayOfMonth);
       var maxDay=new Date(futureDate.getFullYear(),futureDate.getMonth()+1,0).getDate();
       if(dayOfMonth>maxDay)futureDate.setDate(maxDay);
-      
-      var dueDateStr=futureDate.toISOString().split('T')[0];
-      dueDateStr=toWorkingDay(dueDateStr);
-      var ym=dueDateStr.substring(0,7);
-      
-      newTasks.push({
-        id:genId(),section:baseTask.section,name:baseTask.name,freq:'Quarterly',
-        dueDate:dueDateStr,actualDate:'',status:'Pending',assign:baseTask.assign,
-        notes:baseTask.notes,monthKey:ym,isCustom:true,proofLink:''
-      });
+      var dueDateStr=toWorkingDay(futureDate.toISOString().split('T')[0]);
+      newTasks.push({id:genId(),section:baseTask.section,name:baseTask.name,freq:'Quarterly',dueDate:dueDateStr,actualDate:'',status:'Pending',assign:baseTask.assign,notes:baseTask.notes,monthKey:dueDateStr.substring(0,7),isCustom:true,proofLink:''});
     }
-  }
-  else if(freq==='Annual'){
-    var dayOfMonth=baseDue.getDate();
-    var monthOfYear=baseDue.getMonth();
+  }else if(freq==='Annual'){
+    var dayOfMonth=baseDue.getDate();var monthOfYear=baseDue.getMonth();
     for(var i=0;i<3;i++){
       var futureDate=new Date(baseDue.getFullYear()+i,monthOfYear,dayOfMonth);
       var maxDay=new Date(futureDate.getFullYear(),futureDate.getMonth()+1,0).getDate();
       if(dayOfMonth>maxDay)futureDate.setDate(maxDay);
-      
-      var dueDateStr=futureDate.toISOString().split('T')[0];
-      dueDateStr=toWorkingDay(dueDateStr);
-      var ym=dueDateStr.substring(0,7);
-      
-      newTasks.push({
-        id:genId(),section:baseTask.section,name:baseTask.name,freq:'Annual',
-        dueDate:dueDateStr,actualDate:'',status:'Pending',assign:baseTask.assign,
-        notes:baseTask.notes,monthKey:ym,isCustom:true,proofLink:''
-      });
+      var dueDateStr=toWorkingDay(futureDate.toISOString().split('T')[0]);
+      newTasks.push({id:genId(),section:baseTask.section,name:baseTask.name,freq:'Annual',dueDate:dueDateStr,actualDate:'',status:'Pending',assign:baseTask.assign,notes:baseTask.notes,monthKey:dueDateStr.substring(0,7),isCustom:true,proofLink:''});
     }
   }
-  
   return newTasks;
 }
 
-// ══════════════════════════════════════════════════════════
-// ADD CUSTOM TASK
-// ══════════════════════════════════════════════════════════
 function openAddTask(){
   if(READ_ONLY.includes(currentRole)){showToast('View only','e');return;}
   populateAssignDropdowns();
   document.getElementById('at-name').value='';document.getElementById('at-notes').value='';
   document.getElementById('at-due').value=today();document.getElementById('at-assign').value='';
-  document.getElementById('at-freq').value='Monthly';
-  updateRecurringNote();
-  openMo('addTaskMo');
+  document.getElementById('at-freq').value='Monthly';updateRecurringNote();openMo('addTaskMo');
 }
-
 function updateRecurringNote(){
   var freq=document.getElementById('at-freq').value;
-  var note=document.getElementById('recurringNote');
-  var text=document.getElementById('recurringText');
-  
-  if(freq==='One-time'){
-    note.style.display='none';
-  }else{
+  var note=document.getElementById('recurringNote');var text=document.getElementById('recurringText');
+  if(freq==='One-time'){note.style.display='none';}else{
     note.style.display='block';
-    var messages={
-      'Daily':'ℹ️ Tasks created for ALL working days for NEXT 12 MONTHS from selected date (Sunday + Holidays skipped)',
-      'Weekly':'ℹ️ 52 tasks created weekly FROM selected date (Sunday + Holidays → Previous working day)',
-      'Monthly':'ℹ️ 12 tasks created monthly FROM selected date (Sunday + Holidays → Previous working day)',
-      'Quarterly':'ℹ️ 4 tasks created quarterly FROM selected date (Sunday + Holidays → Previous working day)',
-      'Annual':'ℹ️ 3 tasks created annually FROM selected date (Sunday + Holidays → Previous working day)'
-    };
+    var messages={'Daily':'ℹ️ Task will be created for ALL working days this month (Sunday + Holidays skipped)','Monthly':'ℹ️ Task will be created for next 12 months on same date (Sunday + Holidays → Previous working day)','Quarterly':'ℹ️ Task will be created for next 4 quarters on same date (Sunday + Holidays → Previous working day)','Annual':'ℹ️ Task will be created for next 3 years on same date (Sunday + Holidays → Previous working day)'};
     text.textContent=messages[freq]||'';
   }
 }
-
 function saveAddTask(){
-  var name=document.getElementById('at-name').value.trim();
-  var due=document.getElementById('at-due').value;
-  var freq=document.getElementById('at-freq').value;
-  
+  var name=document.getElementById('at-name').value.trim();var due=document.getElementById('at-due').value;var freq=document.getElementById('at-freq').value;
   if(!name||!due){showToast('Name and Due Date required','e');return;}
-  
-  var adjustedDue=toWorkingDay(due);
-  var ym=adjustedDue.substring(0,7);
-  
-  var baseTask={
-    id:genId(),
-    section:document.getElementById('at-section').value,
-    name:name,
-    freq:freq,
-    dueDate:adjustedDue,
-    actualDate:'',
-    status:'Pending',
-    assign:document.getElementById('at-assign').value,
-    notes:document.getElementById('at-notes').value,
-    monthKey:ym,
-    isCustom:true,
-    proofLink:''
-  };
-  
+  var adjustedDue=toWorkingDay(due);var ym=adjustedDue.substring(0,7);
+  var baseTask={id:genId(),section:document.getElementById('at-section').value,name:name,freq:freq,dueDate:adjustedDue,actualDate:'',status:'Pending',assign:document.getElementById('at-assign').value,notes:document.getElementById('at-notes').value,monthKey:ym,isCustom:true,proofLink:''};
   if(freq==='One-time'){
     tasks.push(baseTask);
-    saveTask(baseTask,function(){
-      buildAll();
-      showToast('✓ Task added!','s');
-      if(SETTINGS.emailNew&&baseTask.assign)emailNewTaskAssigned(baseTask);
-    });
+    saveTask(baseTask,function(){buildAll();showToast('✓ Task added!','s');if(SETTINGS.emailNew&&baseTask.assign)emailNewTaskAssigned(baseTask);});
   }else{
     var recurring=generateRecurringTasks(baseTask);
-    if(recurring.length===0){
-      showToast('No tasks generated','e');return;
-    }
-    
+    if(recurring.length===0){showToast('No tasks generated','e');return;}
     setSS('saving','Creating '+recurring.length+' tasks...');
     recurring.forEach(function(t){tasks.push(t);});
-    
-    var promises=recurring.map(function(t){
-      return new Promise(function(resolve){
-        saveTask(t,function(){resolve();});
-      });
-    });
-    
-    Promise.all(promises).then(function(){
-      buildAll();
-      showToast('✓ '+recurring.length+' tasks created!','s');
-      closeMo('addTaskMo');
-    });
+    var promises=recurring.map(function(t){return new Promise(function(resolve){saveTask(t,function(){resolve();});});});
+    Promise.all(promises).then(function(){buildAll();showToast('✓ '+recurring.length+' tasks created!','s');closeMo('addTaskMo');});
   }
-  
   closeMo('addTaskMo');
 }
 
-// ══════════════════════════════════════════════════════════
-// LOGIN
-// ══════════════════════════════════════════════════════════
 var selRole=null;
 function pickRole(r,el){document.querySelectorAll('.l-role-btn').forEach(function(b){b.classList.remove('sel');});el.classList.add('sel');selRole=r;document.getElementById('passInput').focus();document.getElementById('lErr').textContent='';}
 function doLogin(){
@@ -1487,46 +1123,19 @@ function showToast(msg,type){var t=document.getElementById('toast');t.textConten
 // ══════════════════════════════════════════════════════════
 window.onload=function(){
   SETTINGS=loadSettings();applyTheme(SETTINGS.theme);
-
-  ['loginThemeBtn','appThemeBtn'].forEach(function(id){
-    var el=document.getElementById(id);if(el)el.addEventListener('click',function(){toggleTheme();});
-  });
-
-  document.getElementById('saveTeamBtn').addEventListener('click',function(){
-    SETTINGS.teamMembers=getTeamFromInputs();
-    SETTINGS.ownerEmail=document.getElementById('sp-owner-email').value.trim();
-    saveSettings(SETTINGS);populateAssignDropdowns();showToast('✓ Team saved!','s');
-  });
-  document.getElementById('saveEmailBtn').addEventListener('click',function(){
-    SETTINGS.resendKey=document.getElementById('sp-resend-key').value.trim();
-    SETTINGS.senderEmail=document.getElementById('sp-sender-email').value.trim();
-    SETTINGS.reminderTime=document.getElementById('sp-reminder-time').value;
-    SETTINGS.emailDaily=document.getElementById('sp-email-daily').checked;
-    SETTINGS.emailNew=document.getElementById('sp-email-new').checked;
-    SETTINGS.emailOverdue=document.getElementById('sp-email-overdue').checked;
-    saveSettings(SETTINGS);showToast('✓ Email settings saved!','s');
-  });
-  document.getElementById('testEmailBtn').addEventListener('click',function(){
-    var key=SETTINGS.resendKey;if(!key){showToast('Please save API key first','e');return;}
-    var ownerEmail=SETTINGS.ownerEmail;if(!ownerEmail){showToast('No owner email configured','e');return;}
-    var html=buildEmailTemplate('Test Email ✓','Email notifications are working correctly.',[{label:'System',value:'EA & PC Task FMS'},{label:'Status',value:'Active ✓'},{label:'Time',value:new Date().toLocaleString()}],'No action required.','#00BFA5');
-    sendEmail(ownerEmail,'','Test Email — EA & PC Task FMS',html).then(function(r){if(r&&r.id)showToast('✓ Test email sent!','s');else showToast('Check API key / domain','e');});
-  });
+  ['loginThemeBtn','appThemeBtn'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('click',function(){toggleTheme();});});
+  document.getElementById('saveTeamBtn').addEventListener('click',function(){SETTINGS.teamMembers=getTeamFromInputs();SETTINGS.ownerEmail=document.getElementById('sp-owner-email').value.trim();saveSettings(SETTINGS);populateAssignDropdowns();showToast('✓ Team saved!','s');});
+  document.getElementById('saveEmailBtn').addEventListener('click',function(){SETTINGS.resendKey=document.getElementById('sp-resend-key').value.trim();SETTINGS.senderEmail=document.getElementById('sp-sender-email').value.trim();SETTINGS.reminderTime=document.getElementById('sp-reminder-time').value;SETTINGS.emailDaily=document.getElementById('sp-email-daily').checked;SETTINGS.emailNew=document.getElementById('sp-email-new').checked;SETTINGS.emailOverdue=document.getElementById('sp-email-overdue').checked;saveSettings(SETTINGS);showToast('✓ Email settings saved!','s');});
+  document.getElementById('testEmailBtn').addEventListener('click',function(){var key=SETTINGS.resendKey;if(!key){showToast('Please save API key first','e');return;}var ownerEmail=SETTINGS.ownerEmail;if(!ownerEmail){showToast('No owner email configured','e');return;}var html=buildEmailTemplate('Test Email ✓','Email notifications are working correctly.',[{label:'System',value:'EA & PC Task FMS'},{label:'Status',value:'Active ✓'},{label:'Time',value:new Date().toLocaleString()}],'No action required.','#00BFA5');sendEmail(ownerEmail,'','Test Email — EA & PC Task FMS',html).then(function(r){if(r&&r.id)showToast('✓ Test email sent!','s');else showToast('Check API key / domain','e');});});
   document.getElementById('saveHolidaysBtn').addEventListener('click',function(){saveSettings(SETTINGS);showToast('✓ Holidays saved!','s');});
   document.getElementById('clearHolidaysBtn').addEventListener('click',function(){if(confirm('Clear all holidays?')){SETTINGS.holidays=[];renderHolidayList();saveSettings(SETTINGS);showToast('Holidays cleared','i');}});
-  document.getElementById('savePwBtn').addEventListener('click',function(){
-    var pw={};
-    ['owner','ea','pc','viewer'].forEach(function(r){var v=document.getElementById('sp-pw-'+r).value.trim();pw[r]=v||SETTINGS.passwords[r];});
-    SETTINGS.passwords=pw;saveSettings(SETTINGS);showToast('✓ Passwords updated!','s');
-  });
+  document.getElementById('savePwBtn').addEventListener('click',function(){var pw={};['owner','ea','pc','viewer'].forEach(function(r){var v=document.getElementById('sp-pw-'+r).value.trim();pw[r]=v||SETTINGS.passwords[r];});SETTINGS.passwords=pw;saveSettings(SETTINGS);showToast('✓ Passwords updated!','s');});
   document.getElementById('xlFile').addEventListener('change',function(e){var file=e.target.files[0];if(file)handleHolidayFile(file);this.value='';});
   var dropZone=document.getElementById('xlDropZone');
   dropZone.addEventListener('dragover',function(e){e.preventDefault();this.style.borderColor='var(--teal)';});
   dropZone.addEventListener('dragleave',function(){this.style.borderColor='';});
   dropZone.addEventListener('drop',function(e){e.preventDefault();this.style.borderColor='';var file=e.dataTransfer.files[0];if(file)handleHolidayFile(file);});
-  
   document.getElementById('at-freq').addEventListener('change',updateRecurringNote);
-  
   document.getElementById('settingsBtn').addEventListener('click',openSettings);
   document.getElementById('settingsOverlay').addEventListener('click',function(e){if(e.target===this)closeSettings();});
   document.getElementById('passInput').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
@@ -1542,23 +1151,6 @@ window.onload=function(){
   document.getElementById('markPendingBtn').addEventListener('click',function(){saveTaskFromModal('Pending');});
   document.getElementById('deleteTaskBtn').addEventListener('click',deleteTaskFromModal);
   document.getElementById('saveAddTaskBtn').addEventListener('click',saveAddTask);
-  
-  document.getElementById('taskFromDate').addEventListener('change',function(){buildTasksView(document.getElementById('taskMonthSel').value||getYM());});
-  document.getElementById('taskToDate').addEventListener('change',function(){buildTasksView(document.getElementById('taskMonthSel').value||getYM());});
-  document.getElementById('clearDateFilter').addEventListener('click',function(){
-    document.getElementById('taskFromDate').value='';
-    document.getElementById('taskToDate').value='';
-    buildTasksView(document.getElementById('taskMonthSel').value||getYM());
-  });
-  
-  document.getElementById('misFromDate').addEventListener('change',function(){buildMIS(document.getElementById('misMonthSel').value||getYM());});
-  document.getElementById('misToDate').addEventListener('change',function(){buildMIS(document.getElementById('misMonthSel').value||getYM());});
-  document.getElementById('clearMisDateFilter').addEventListener('click',function(){
-    document.getElementById('misFromDate').value='';
-    document.getElementById('misToDate').value='';
-    buildMIS(document.getElementById('misMonthSel').value||getYM());
-  });
-  
   document.querySelectorAll('#view-tasks .flt-btn').forEach(function(btn){
     btn.addEventListener('click',function(){
       taskFilt=btn.getAttribute('data-f');
@@ -1569,8 +1161,10 @@ window.onload=function(){
   document.getElementById('taskMonthSel').addEventListener('change',function(){buildTasksView(this.value);});
   document.getElementById('misMonthSel').addEventListener('change',function(){buildMIS(this.value);});
   document.getElementById('taskSrch').addEventListener('input',function(){buildTasksView(document.getElementById('taskMonthSel').value||getYM());});
+  // ✅ PATCH 5: Date filter listeners
+  document.getElementById('clearDateBtn').addEventListener('click',function(){document.getElementById('dateFrom').value='';document.getElementById('dateTo').value='';buildTasksView(document.getElementById('taskMonthSel').value||getYM());});
+  ['dateFrom','dateTo'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('change',function(){buildTasksView(document.getElementById('taskMonthSel').value||getYM());});});
   document.querySelectorAll('.mo').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)o.classList.remove('open');});});
-
   var saved=sessionStorage.getItem('eapc_role');
   if(saved&&SETTINGS.passwords[saved]){currentRole=saved;enterApp();}
 };
