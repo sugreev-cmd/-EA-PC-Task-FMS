@@ -596,7 +596,7 @@ function deleteTask_db(id,cb){sbFetch('/'+TABLE+'?id=eq.'+id,'DELETE').then(func
 function calcStatus(task){if(task.actualDate)return'Done';if(task.dueDate<today())return'Overdue';if(task.dueDate===today())return'Due Today';return'Pending';}
 
 // ✅ FIX: getTasksForMonth uses role filter
-function getTasksForMonth(ym){return filterTasksByRole(tasks.filter(function(t){return t.monthKey===ym;}));}
+function getTasksForMonth(ym){return filterTasksByRole(tasks.filter(function(t){return t.dueDate&&t.dueDate.substring(0,7)===ym;}));}
 
 function renderProofIcon(task){
   if(!task.proofLink)return'<span style="color:var(--dim);font-size:10px">—</span>';
@@ -620,7 +620,16 @@ function buildTasksView(ym){
   var toISO2=toISO(toDate);
 
   // Date filter active → search ALL tasks; else use month filter
-  var pool=(fromISO||toISO2)?filterTasksByRole(tasks):getTasksForMonth(ym);
+  // When month selected (no date filter): filter by due_date month
+  // When date filter active: search ALL tasks
+  function getTasksByMonth(ymStr) {
+    var filtered = filterTasksByRole(tasks).filter(function(t) {
+      if (!t.dueDate) return false;
+      return t.dueDate.substring(0, 7) === ymStr;
+    });
+    return filtered;
+  }
+  var pool=(fromISO||toISO2)?filterTasksByRole(tasks):getTasksByMonth(ym);
   var data=pool.filter(function(t){var st=calcStatus(t);if(taskFilt==='EA')return t.section==='EA';if(taskFilt==='PC')return t.section==='PC';if(taskFilt==='Admin')return t.section==='Admin';if(taskFilt==='Custom')return t.section==='Custom';if(taskFilt==='Overdue')return st==='Overdue';if(taskFilt==='Pending')return st==='Pending'||st==='Due Today';if(taskFilt==='Done')return!!t.actualDate;return true;}).filter(function(t){if(!q)return true;return(t.name+t.section+t.assign).toLowerCase().indexOf(q)>-1;}).filter(function(t){var td=t.dueDate?t.dueDate.substring(0,10):'';if(fromISO&&td<fromISO)return false;if(toISO2&&td>toISO2)return false;return true;});
   document.getElementById('taskBody').innerHTML=data.length?data.map(function(t,i){var st=calcStatus(t);var spc={Done:'sp-done',Overdue:'sp-overdue',Pending:'sp-pending','Due Today':'sp-today'}[st]||'sp-pending';var sc={EA:'s-ea',PC:'s-pc',Admin:'s-admin',Custom:'s-cus'}[t.section]||'s-cus';var isHol=isHoliday(t.dueDate);return'<tr onclick="openTask(\''+t.id+'\')"><td style="font-size:10px;color:var(--dim);font-family:JetBrains Mono,monospace">'+(i+1)+'</td><td><span class="tt-section '+sc+'">'+t.section+'</span></td><td style="font-size:11px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.name)+'</td><td><span class="freq-badge '+freqBadge(t.freq)+'">'+t.freq+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:'+(st==='Overdue'?'var(--red)':st==='Due Today'?'var(--gold)':'var(--sub)')+'">'+fmtDate(t.dueDate)+(isHol?' 🏖':'')+'</td><td style="font-size:10px;color:var(--sub)">'+escH(t.assign||'—')+'</td><td><span class="status-pill '+spc+'">'+( st==='Done'?'✓ ':st==='Overdue'?'⚠ ':st==='Due Today'?'📅 ':'○ ')+st+'</span></td><td style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--green)">'+fmtDate(t.actualDate)+'</td><td style="font-size:10px;color:var(--dim);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escH(t.notes||'—')+'</td><td>'+renderProofIcon(t)+'</td></tr>';}).join(''):'<tr><td colspan="10" style="text-align:center;padding:30px;color:var(--dim)">No tasks found</td></tr>';}
 
@@ -630,7 +639,7 @@ function buildMIS(ym){
   var misTo=document.getElementById('misToDate')?document.getElementById('misToDate').value:'';
   function normD(d){if(!d)return'';if(/^\d{4}-\d{2}-\d{2}$/.test(d))return d;var p=d.split(/[-\/]/);if(p.length===3&&p[0].length<=2)return p[2]+'-'+p[1].padStart(2,'0')+'-'+p[0].padStart(2,'0');return d;}
   var mFrom=normD(misFrom);var mTo=normD(misTo);
-  var misPool=(mFrom||mTo)?filterTasksByRole(tasks):getTasksForMonth(ym);
+  var misPool=(mFrom||mTo)?filterTasksByRole(tasks):filterTasksByRole(tasks).filter(function(t){return t.dueDate&&t.dueDate.substring(0,7)===ym;});
   var mt=misPool.filter(function(t){var td=t.dueDate?t.dueDate.substring(0,10):'';if(mFrom&&td<mFrom)return false;if(mTo&&td>mTo)return false;return true;});
   var total=mt.length,done=mt.filter(function(t){return t.actualDate;}).length;var overdue=mt.filter(function(t){return calcStatus(t)==='Overdue';}).length;var delayed=mt.filter(function(t){return t.actualDate&&t.dueDate&&t.actualDate>t.dueDate;}).length;
   document.getElementById('misCards').innerHTML=[{c:'mc-b',l:'Total Tasks',v:total,s:'Planned'},{c:'mc-g',l:'Completed',v:done,s:'Done ✓'},{c:'mc-r',l:'Overdue',v:overdue,s:'Missed deadline'},{c:'mc-o',l:'Delayed',v:delayed,s:'Done late'},].map(function(c){return'<div class="mis-card '+c.c+'"><div class="mis-lbl">'+c.l+'</div><div class="mis-val">'+c.v+'</div><div class="mis-sub">'+c.s+'</div></div>';}).join('');
