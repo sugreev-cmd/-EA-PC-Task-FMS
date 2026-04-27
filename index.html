@@ -589,14 +589,76 @@ function getMonthOptions(){var now=new Date();var opts=[];for(var i=-5;i<=12;i++
 function populateMonthSelects(){var opts=getMonthOptions();var cur=getYM();var html=opts.map(function(o){return'<option value="'+o.ym+'"'+(o.ym===cur?' selected':'')+'>'+o.label+'</option>';}).join('');document.getElementById('taskMonthSel').innerHTML=html;document.getElementById('misMonthSel').innerHTML=html;}
 function populateAssignDropdowns(){var members=SETTINGS.teamMembers||[];var opts='<option value="">-- Select --</option>'+members.map(function(m){return'<option>'+escH(m.name)+'</option>';}).join('');['taskAssign','at-assign'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=opts;});}
 function setSS(s,t){var d=document.getElementById('syncDot'),tx=document.getElementById('syncTxt');d.className='sync-dot '+s;tx.textContent=t;}
-function loadData(){setSS('saving','Loading...');sbFetch('/'+TABLE+'?order=due_date.asc&limit=10000','GET').then(function(rows){tasks=(rows||[]).map(mapRow);setSS('saved','✓ Loaded');buildAll();checkAndSendOverdueEmails(tasks);checkDailyReminder(tasks);}).catch(function(e){setSS('err','Load failed');console.error(e);showToast('Load failed','e');});}
+// ══════════════════════════════════════════════════════════
+// SMART LOADING — loads only needed months, caches results
+// ══════════════════════════════════════════════════════════
+var loadedMonths = {};  // cache: {ym: [tasks]}
+var allTasks = [];      // global cache
+
+function loadMonth(ym, cb) {
+  if(loadedMonths[ym]) { if(cb)cb(); return; }  // already cached
+  setSS('saving', 'Loading ' + ymLabel(ym) + '...');
+  var from = ym + '-01';
+  var to   = ym + '-31';
+  sbFetch('/'+TABLE+'?order=due_date.asc&due_date=gte.'+from+'&due_date=lte.'+to+'&limit=2000','GET')
+    .then(function(rows){
+      var mapped = (rows||[]).map(mapRow);
+      loadedMonths[ym] = mapped;
+      // merge into allTasks (avoid duplicates)
+      var ids = new Set(allTasks.map(function(t){return t.id;}));
+      mapped.forEach(function(t){ if(!ids.has(t.id)) allTasks.push(t); });
+      tasks = allTasks;
+      setSS('saved','✓ Loaded');
+      if(cb) cb();
+    })
+    .catch(function(e){ setSS('err','Load failed'); console.error(e); showToast('Load failed','e'); });
+}
+
+function loadDateRange(from, to, cb) {
+  setSS('saving','Loading range...');
+  sbFetch('/'+TABLE+'?order=due_date.asc&due_date=gte.'+from+'&due_date=lte.'+to+'&limit=5000','GET')
+    .then(function(rows){
+      var mapped = (rows||[]).map(mapRow);
+      var ids = new Set(allTasks.map(function(t){return t.id;}));
+      mapped.forEach(function(t){ if(!ids.has(t.id)) allTasks.push(t); });
+      tasks = allTasks;
+      setSS('saved','✓ Loaded');
+      if(cb) cb();
+    })
+    .catch(function(e){ setSS('err','Load failed'); console.error(e); });
+}
+
+function loadData(){
+  var curYM = getYM();
+  // Load current month + prev month (for overdue check)
+  var prevDate = new Date();
+  prevDate.setMonth(prevDate.getMonth()-1);
+  var prevYM = prevDate.getFullYear()+'-'+String(prevDate.getMonth()+1).padStart(2,'0');
+
+  setSS('saving','Loading...');
+  // Load last 2 months together for dashboard
+  var from = prevYM + '-01';
+  var to   = curYM  + '-31';
+  sbFetch('/'+TABLE+'?order=due_date.asc&due_date=gte.'+from+'&due_date=lte.'+to+'&limit=5000','GET')
+    .then(function(rows){
+      allTasks = (rows||[]).map(mapRow);
+      tasks = allTasks;
+      loadedMonths[curYM] = allTasks.filter(function(t){return t.dueDate&&t.dueDate.substring(0,7)===curYM;});
+      loadedMonths[prevYM] = allTasks.filter(function(t){return t.dueDate&&t.dueDate.substring(0,7)===prevYM;});
+      setSS('saved','✓ Loaded');
+      buildAll();
+      checkAndSendOverdueEmails(tasks);
+      checkDailyReminder(tasks);
+    })
+    .catch(function(e){ setSS('err','Load failed'); console.error(e); showToast('Load failed — check Supabase','e'); });
+}
 function mapRow(r){return{id:r.id,section:r.section||'',name:r.name||'',freq:r.freq||'Monthly',dueDate:r.due_date||'',actualDate:r.actual_date||'',status:r.status||'Pending',assign:r.assigned_to||'',notes:r.notes||'',monthKey:r.month_key||'',isCustom:r.is_custom||false,proofLink:r.proof_link||''};}
 function saveTask(task,cb){setSS('saving','Saving...');var row={id:task.id,section:task.section,name:task.name,freq:task.freq,due_date:task.dueDate,actual_date:task.actualDate||null,status:task.status,assigned_to:task.assign||'',notes:task.notes||'',month_key:task.monthKey,is_custom:task.isCustom||false,proof_link:task.proofLink||'',updated_at:new Date().toISOString()};sbFetch('/'+TABLE+'?on_conflict=id','POST',row).then(function(){setSS('saved','✓ Saved');if(cb)cb();}).catch(function(){sbFetch('/'+TABLE+'?id=eq.'+task.id,'PATCH',row).then(function(){setSS('saved','✓ Saved');if(cb)cb();}).catch(function(e){setSS('err','Save failed');showToast('Save failed','e');console.error(e);});});}
 function deleteTask_db(id,cb){sbFetch('/'+TABLE+'?id=eq.'+id,'DELETE').then(function(){setSS('saved','✓ Saved');if(cb)cb();}).catch(function(){setSS('err','Error');showToast('Delete failed','e');});}
 function calcStatus(task){if(task.actualDate)return'Done';if(task.dueDate<today())return'Overdue';if(task.dueDate===today())return'Due Today';return'Pending';}
 
 // ✅ FIX: getTasksForMonth uses role filter
-function getTasksForMonth(ym){return filterTasksByRole(tasks.filter(function(t){return t.dueDate&&t.dueDate.substring(0,7)===ym;}));}
+function getTasksForMonth(ym){return filterTasksByRole((allTasks||tasks).filter(function(t){return t.dueDate&&t.dueDate.substring(0,7)===ym;}));}
 
 function renderProofIcon(task){
   if(!task.proofLink)return'<span style="color:var(--dim);font-size:10px">—</span>';
@@ -614,6 +676,18 @@ function buildTasksView(ym){
   var q=document.getElementById('taskSrch')?document.getElementById('taskSrch').value.toLowerCase():'';
   var fromDate=document.getElementById('taskFromDate')?document.getElementById('taskFromDate').value:'';
   var toDate=document.getElementById('taskToDate')?document.getElementById('taskToDate').value:'';
+  // Smart load: fetch from Supabase if not cached
+  function toISO_local(d){if(!d)return'';if(/^\d{4}-\d{2}-\d{2}$/.test(d))return d;var p=d.split(/[-\/]/);if(p.length===3&&p[0].length<=2)return p[2]+'-'+p[1].padStart(2,'0')+'-'+p[0].padStart(2,'0');return d;}
+  var fISO=toISO_local(fromDate); var tISO=toISO_local(toDate);
+  if(fISO && tISO && !loadedMonths['range_'+fISO+'_'+tISO]) {
+    loadedMonths['range_'+fISO+'_'+tISO] = true; // mark as loading
+    loadDateRange(fISO, tISO, function(){ buildTasksView(ym); });
+    return;
+  }
+  if(!fISO && !tISO && !loadedMonths[ym]) {
+    loadMonth(ym, function(){ buildTasksView(ym); });
+    return;
+  }
   // Normalize dates to YYYY-MM-DD for safe string comparison
   function toISO(d){if(!d)return'';if(/^\d{4}-\d{2}-\d{2}$/.test(d))return d;var p=d.split(/[-\/]/);if(p.length===3&&p[0].length<=2)return p[2]+'-'+p[1].padStart(2,'0')+'-'+p[0].padStart(2,'0');return d;}
   var fromISO=toISO(fromDate);
@@ -639,7 +713,14 @@ function buildMIS(ym){
   var misTo=document.getElementById('misToDate')?document.getElementById('misToDate').value:'';
   function normD(d){if(!d)return'';if(/^\d{4}-\d{2}-\d{2}$/.test(d))return d;var p=d.split(/[-\/]/);if(p.length===3&&p[0].length<=2)return p[2]+'-'+p[1].padStart(2,'0')+'-'+p[0].padStart(2,'0');return d;}
   var mFrom=normD(misFrom);var mTo=normD(misTo);
-  var misPool=(mFrom||mTo)?filterTasksByRole(tasks):filterTasksByRole(tasks).filter(function(t){return t.dueDate&&t.dueDate.substring(0,7)===ym;});
+  if(mFrom&&mTo&&!loadedMonths['range_'+mFrom+'_'+mTo]){
+    loadedMonths['range_'+mFrom+'_'+mTo]=true;
+    loadDateRange(mFrom,mTo,function(){buildMIS(ym);});
+    return;
+  }
+  var misPool=(mFrom||mTo)
+    ?filterTasksByRole(allTasks)
+    :filterTasksByRole(allTasks).filter(function(t){return t.dueDate&&t.dueDate.substring(0,7)===ym;});
   var mt=misPool.filter(function(t){var td=t.dueDate?t.dueDate.substring(0,10):'';if(mFrom&&td<mFrom)return false;if(mTo&&td>mTo)return false;return true;});
   var total=mt.length,done=mt.filter(function(t){return t.actualDate;}).length;var overdue=mt.filter(function(t){return calcStatus(t)==='Overdue';}).length;var delayed=mt.filter(function(t){return t.actualDate&&t.dueDate&&t.actualDate>t.dueDate;}).length;
   document.getElementById('misCards').innerHTML=[{c:'mc-b',l:'Total Tasks',v:total,s:'Planned'},{c:'mc-g',l:'Completed',v:done,s:'Done ✓'},{c:'mc-r',l:'Overdue',v:overdue,s:'Missed deadline'},{c:'mc-o',l:'Delayed',v:delayed,s:'Done late'},].map(function(c){return'<div class="mis-card '+c.c+'"><div class="mis-lbl">'+c.l+'</div><div class="mis-val">'+c.v+'</div><div class="mis-sub">'+c.s+'</div></div>';}).join('');
@@ -706,7 +787,11 @@ window.onload=function(){
   document.getElementById('misToDate').addEventListener('change',function(){buildMIS(document.getElementById('misMonthSel').value||getYM());});
   document.getElementById('clearMisDateFilter').addEventListener('click',function(){document.getElementById('misFromDate').value='';document.getElementById('misToDate').value='';buildMIS(document.getElementById('misMonthSel').value||getYM());});
   document.querySelectorAll('#view-tasks .flt-btn[data-f]').forEach(function(btn){btn.addEventListener('click',function(){taskFilt=btn.getAttribute('data-f');document.querySelectorAll('#view-tasks .flt-btn[data-f]').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');buildTasksView(document.getElementById('taskMonthSel').value||getYM());});});
-  document.getElementById('taskMonthSel').addEventListener('change',function(){buildTasksView(this.value);});
+  document.getElementById('taskMonthSel').addEventListener('change',function(){
+  var selYM=this.value;
+  if(!loadedMonths[selYM]){loadMonth(selYM,function(){buildTasksView(selYM);});}
+  else{buildTasksView(selYM);}
+});
   document.getElementById('misMonthSel').addEventListener('change',function(){buildMIS(this.value);});
   document.getElementById('taskSrch').addEventListener('input',function(){buildTasksView(document.getElementById('taskMonthSel').value||getYM());});
   document.querySelectorAll('.mo').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)o.classList.remove('open');});});
